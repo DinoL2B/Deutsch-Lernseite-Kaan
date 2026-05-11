@@ -1,0 +1,2670 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaans Abenteuer – Deutsch lernen</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+  :root {
+    --red: #E63946;
+    --yellow: #FFD166;
+    --blue: #118AB2;
+    --green: #06D6A0;
+    --dark: #1A1A2E;
+    --darker: #0F0F1A;
+    --card: #16213E;
+    --card2: #1E2A4A;
+    --text: #F0F0F0;
+    --muted: #8899AA;
+    --locked: #2A3A5A;
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--darker);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── ANIMATED BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(230,57,70,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(17,138,178,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(255,209,102,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid rgba(255,255,255,0.06);
+    background: rgba(15,15,26,0.8);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+  }
+
+  .logo {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    text-shadow: 3px 3px 0 var(--red);
+    cursor: pointer;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .total-score {
+    background: linear-gradient(135deg, var(--yellow), #FFA500);
+    color: var(--dark);
+    font-weight: 900;
+    font-size: 1rem;
+    padding: 8px 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+
+  /* ─── HERO / CHARACTER DISPLAY ─── */
+  .hero {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, var(--card), var(--card2));
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '🏴‍☠️';
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.04;
+    top: -40px;
+    right: -20px;
+    transform: rotate(15deg);
+  }
+
+  .current-char-label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+
+  .current-char-name {
+    font-family: 'Bangers', cursive;
+    font-size: 3.5rem;
+    letter-spacing: 3px;
+    color: var(--yellow);
+    text-shadow: 4px 4px 0 rgba(230,57,70,0.5);
+    margin-bottom: 4px;
+  }
+
+  .current-char-rank {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
+  .char-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: linear-gradient(135deg, var(--red), var(--blue));
+    border: 4px solid var(--yellow);
+    box-shadow: 0 0 30px rgba(255,209,102,0.3);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(255,209,102,0.3); }
+    50% { box-shadow: 0 0 50px rgba(255,209,102,0.6); }
+  }
+
+  .progress-to-next {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .progress-bar {
+    height: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    border-radius: 50px;
+    transition: width 1s ease;
+    position: relative;
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4));
+    border-radius: 0 50px 50px 0;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+
+  /* ─── CHARACTER COLLECTION ─── */
+  .section-title {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title span {
+    color: var(--yellow);
+  }
+
+  .char-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-bottom: 50px;
+  }
+
+  .char-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px 8px;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .char-card.unlocked {
+    border-color: var(--yellow);
+    background: linear-gradient(135deg, var(--card), #1E2A4A);
+    cursor: pointer;
+  }
+
+  .char-card.unlocked:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(255,209,102,0.2);
+  }
+
+  .char-card.locked {
+    opacity: 0.4;
+    filter: grayscale(1);
+  }
+
+  .char-card .char-emoji {
+    font-size: 2.2rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .char-card .char-card-name {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .char-card .char-level {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: var(--red);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 900;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .char-card.unlocked .char-level {
+    background: var(--yellow);
+    color: var(--dark);
+  }
+
+  .char-card .lock-icon {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    font-size: 0.7rem;
+  }
+
+  /* ─── QUIZ GRID ─── */
+  .quiz-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .filter-btn.active, .filter-btn:hover {
+    border-color: var(--yellow);
+    color: var(--yellow);
+    background: rgba(255,209,102,0.08);
+  }
+
+  .quiz-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 50px;
+  }
+
+  .quiz-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 24px;
+    border: 2px solid rgba(255,255,255,0.06);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quiz-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .quiz-card.grammatik::before { background: linear-gradient(90deg, var(--red), var(--yellow)); }
+  .quiz-card.rechtschreibung::before { background: linear-gradient(90deg, var(--blue), var(--green)); }
+  .quiz-card.abschluss::before { background: linear-gradient(90deg, var(--yellow), var(--red)); }
+
+  .quiz-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.15);
+    box-shadow: var(--shadow);
+  }
+
+  .quiz-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+
+  .quiz-category {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    border-radius: 50px;
+  }
+
+  .grammatik .quiz-category { background: rgba(230,57,70,0.2); color: var(--red); }
+  .rechtschreibung .quiz-category { background: rgba(17,138,178,0.2); color: #4CC9F0; }
+  .abschluss .quiz-category { background: rgba(255,209,102,0.2); color: var(--yellow); }
+
+  .schwerpunkt-badge {
+    font-size: 0.7rem;
+    color: var(--yellow);
+    font-weight: 800;
+  }
+
+  .quiz-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .quiz-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .quiz-meta-item {
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Quiz Progress */
+  .quiz-progress-row {
+    margin-bottom: 14px;
+  }
+
+  .quiz-progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+
+  .quiz-progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50px;
+    overflow: hidden;
+  }
+
+  .quiz-progress-fill {
+    height: 100%;
+    border-radius: 50px;
+    transition: width 0.8s ease;
+  }
+
+  .grammatik .quiz-progress-fill { background: linear-gradient(90deg, var(--red), var(--yellow)); }
+  .rechtschreibung .quiz-progress-fill { background: linear-gradient(90deg, var(--blue), var(--green)); }
+  .abschluss .quiz-progress-fill { background: linear-gradient(90deg, var(--yellow), var(--red)); }
+
+  /* Attempts */
+  .attempts-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+
+  .attempt-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .attempt-dot.passed { background: var(--green); }
+  .attempt-dot.failed { background: var(--red); }
+  .attempt-dot.needed { background: var(--yellow); border: 2px solid var(--yellow); background: transparent; }
+
+  .attempts-label {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+
+  /* Quiz Button */
+  .quiz-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .grammatik .quiz-btn { background: linear-gradient(135deg, var(--red), #C1121F); color: white; }
+  .rechtschreibung .quiz-btn { background: linear-gradient(135deg, var(--blue), #0A6A8A); color: white; }
+  .abschluss .quiz-btn { background: linear-gradient(135deg, var(--yellow), #FFA500); color: var(--dark); }
+
+  .quiz-btn:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+  .quiz-char-reward {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .quiz-char-reward strong {
+    color: var(--yellow);
+  }
+
+  /* ─── QUIZ MODAL ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 36px;
+    max-width: 600px;
+    width: 100%;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalIn 0.3s ease;
+  }
+
+  @keyframes modalIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .modal-title {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: var(--yellow);
+  }
+
+  .modal-close {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: var(--text);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+
+  /* Quiz Question Area */
+  .question-counter {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .question-progress {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50px;
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+
+  .question-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    border-radius: 50px;
+    transition: width 0.4s ease;
+  }
+
+  .question-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+
+  /* Multiple Choice Options */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .option-btn {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--blue);
+    background: rgba(17,138,178,0.1);
+  }
+
+  .option-btn.correct {
+    border-color: var(--green);
+    background: rgba(6,214,160,0.15);
+    color: var(--green);
+  }
+
+  .option-btn.wrong {
+    border-color: var(--red);
+    background: rgba(230,57,70,0.15);
+    color: var(--red);
+  }
+
+  /* Text Input */
+  .text-input-area {
+    margin-bottom: 24px;
+  }
+
+  .text-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 12px;
+  }
+
+  .text-input:focus { border-color: var(--blue); }
+  .text-input.correct { border-color: var(--green); background: rgba(6,214,160,0.08); }
+  .text-input.wrong { border-color: var(--red); background: rgba(230,57,70,0.08); }
+
+  /* Drag & Drop */
+  .drag-area {
+    margin-bottom: 24px;
+  }
+
+  .drag-sentence {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .drop-zone {
+    display: inline-flex;
+    min-width: 100px;
+    height: 36px;
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 0 10px;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    vertical-align: middle;
+  }
+
+  .drop-zone.over {
+    border-color: var(--yellow);
+    background: rgba(255,209,102,0.1);
+  }
+
+  .drop-zone.filled {
+    border-style: solid;
+    border-color: var(--blue);
+    background: rgba(17,138,178,0.1);
+    color: var(--text);
+  }
+
+  .drag-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    min-height: 60px;
+  }
+
+  .drag-word {
+    padding: 8px 16px;
+    background: var(--card2);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    cursor: grab;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .drag-word:hover { border-color: var(--yellow); transform: translateY(-2px); }
+  .drag-word.dragging { opacity: 0.4; }
+  .drag-word.used { opacity: 0.2; pointer-events: none; }
+
+  /* Feedback */
+  .feedback-box {
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    font-weight: 700;
+    display: none;
+  }
+
+  .feedback-box.correct {
+    background: rgba(6,214,160,0.15);
+    border: 1px solid var(--green);
+    color: var(--green);
+    display: block;
+  }
+
+  .feedback-box.wrong {
+    background: rgba(230,57,70,0.15);
+    border: 1px solid var(--red);
+    color: #FF6B6B;
+    display: block;
+  }
+
+  /* Nav Buttons */
+  .nav-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+
+  .btn {
+    padding: 12px 28px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--blue), #0A6A8A);
+    color: white;
+  }
+
+  .btn-primary:hover { filter: brightness(1.15); transform: translateY(-1px); }
+
+  .btn-success {
+    background: linear-gradient(135deg, var(--green), #04A07A);
+    color: var(--dark);
+  }
+
+  /* ─── RESULTS SCREEN ─── */
+  .results-screen {
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .results-emoji {
+    font-size: 5rem;
+    margin-bottom: 16px;
+    animation: bounce 1s ease infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .results-title {
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+
+  .results-title.passed { color: var(--green); }
+  .results-title.failed { color: var(--red); }
+
+  .results-score {
+    font-size: 1.2rem;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .results-score strong {
+    color: var(--yellow);
+    font-size: 2rem;
+  }
+
+  .char-unlocked {
+    background: linear-gradient(135deg, rgba(255,209,102,0.1), rgba(230,57,70,0.1));
+    border: 2px solid var(--yellow);
+    border-radius: 20px;
+    padding: 24px;
+    margin: 20px 0;
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255,209,102,0.2); }
+    50% { box-shadow: 0 0 40px rgba(255,209,102,0.5); }
+  }
+
+  .char-unlocked-emoji { font-size: 4rem; display: block; margin-bottom: 8px; }
+  .char-unlocked-text { font-family: 'Bangers', cursive; font-size: 1.5rem; letter-spacing: 2px; color: var(--yellow); }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--card2);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 14px 20px;
+    font-weight: 700;
+    z-index: 999;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.4s ease;
+    max-width: 300px;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ─── LOADING ─── */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    backdrop-filter: blur(4px);
+  }
+
+  .loading-overlay.active { display: flex; }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255,255,255,0.1);
+    border-top-color: var(--yellow);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: var(--yellow);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .modal { padding: 24px 18px; }
+    .current-char-name { font-size: 2.5rem; }
+    .char-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* ─── DRAG & DROP – CHOICE MODE ─── */
+  .choice-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .choice-btn {
+    padding: 10px 20px;
+    background: var(--card2);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--yellow);
+    transform: translateY(-2px);
+  }
+
+  .choice-btn.selected {
+    border-color: var(--blue);
+    background: rgba(17,138,178,0.15);
+  }
+
+  .choice-btn.correct {
+    border-color: var(--green);
+    background: rgba(6,214,160,0.15);
+    color: var(--green);
+  }
+
+  .choice-btn.wrong {
+    border-color: var(--red);
+    background: rgba(230,57,70,0.15);
+    color: var(--red);
+  }
+
+  /* Satz-Bau Modus (nomen Quiz) */
+  .sentence-builder {
+    margin-bottom: 20px;
+  }
+
+  .sentence-display {
+    min-height: 48px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    min-height: 50px;
+  }
+
+  .sentence-display.has-words {
+    border-style: solid;
+    border-color: var(--blue);
+  }
+
+  .word-chip {
+    background: var(--blue);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .word-chip:hover { background: var(--red); }
+
+  .word-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .word-tile {
+    padding: 8px 14px;
+    background: var(--card2);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+
+  .word-tile:hover:not(.used) {
+    border-color: var(--yellow);
+    transform: translateY(-2px);
+  }
+
+  .word-tile.used {
+    opacity: 0.2;
+    pointer-events: none;
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 12px;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text">Lade...</div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo" onclick="scrollTo(0,0)">🏴‍☠️ KAANS QUEST</div>
+  <div class="header-right">
+    <div class="total-score">⭐ <span id="totalScore">0</span> Punkte</div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="current-char-label">Aktueller Charakter</div>
+    <div class="char-avatar" id="heroAvatar">⚓</div>
+    <div class="current-char-name" id="heroName">Koby</div>
+    <div class="current-char-rank" id="heroRank">Level 1 – Anfänger</div>
+    <div class="progress-to-next">
+      <div class="progress-label">
+        <span>Fortschritt zum nächsten Charakter</span>
+        <span id="progressText">0 / 1 Quiz bestanden</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="heroProgressFill" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARAKTERE -->
+  <div class="section-title">🎖️ <span>Charaktere</span></div>
+  <div class="char-grid" id="charGrid"></div>
+
+  <!-- QUIZZE -->
+  <div class="section-title">📚 <span>Quizze</span></div>
+  <div class="quiz-filters">
+    <button class="filter-btn active" onclick="filterQuiz('all', this)">Alle</button>
+    <button class="filter-btn" onclick="filterQuiz('grammatik', this)">📖 Grammatik</button>
+    <button class="filter-btn" onclick="filterQuiz('rechtschreibung', this)">✏️ Rechtschreibung</button>
+    <button class="filter-btn" onclick="filterQuiz('abschluss', this)">🏆 Abschluss</button>
+  </div>
+  <div class="quiz-grid" id="quizGrid"></div>
+
+</main>
+
+<!-- QUIZ MODAL -->
+<div class="modal-overlay" id="quizModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Quiz</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="quizContent"></div>
+  </div>
+</div>
+
+<script>
+
+// ─── CONFIG ───
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwP_TFXYAdkGXqKuW0XchmCApGAG0EY0chDEd3PBxKj1lx_xq5Ol681euINsDj2vKk-/exec";
+const QUESTIONS_PER_QUIZ = 15;
+const PASS_THRESHOLDS = [0.75, 0.80, 0.85];
+
+// ─── ALLE FRAGEN ───
+const ALL_QUESTIONS = {
+
+  // ============================================================
+  // QUIZ: NOMEN & ARTIKEL
+  // ============================================================
+  nomen: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Welcher Artikel gehört zu 'Hund'?", "options": ["die", "das", "der", "eine"], "answer": "der" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Nomen?", "options": ["laufen", "schön", "tisch", "aber"], "answer": "tisch" },
+    { "type": "multiple_choice", "question": "Wie schreibt man Nomen immer?", "options": ["klein", "kursiv", "groß", "unterstrichen"], "answer": "groß" },
+    { "type": "multiple_choice", "question": "Welcher unbestimmte Artikel passt? '___ Vogel sitzt auf dem Ast.'", "options": ["Eine", "Ein", "Der", "Das"], "answer": "Ein" },
+    { "type": "multiple_choice", "question": "Was ist ein Nomen?", "options": ["Ein Tunwort", "Ein Eigenschaftswort", "Ein Name für Dinge, Personen oder Tiere", "Ein Verbindungswort"], "answer": "Ein Name für Dinge, Personen oder Tiere" },
+    { "type": "multiple_choice", "question": "Welcher Artikel gehört zu 'Fahrrad'?", "options": ["der", "die", "das", "einen"], "answer": "das" },
+    { "type": "multiple_choice", "question": "Welcher unbestimmte Artikel passt? '___ Maus läuft durch das Zimmer.'", "options": ["Ein", "Einen", "Eine", "Der"], "answer": "Eine" },
+    { "type": "multiple_choice", "question": "Welches dieser Wörter ist ein Nomen?", "options": ["spielen", "groß", "garten", "weil"], "answer": "garten" },
+    { "type": "multiple_choice", "question": "Welcher Artikel gehört zu 'Lehrerin'?", "options": ["der", "das", "ein", "die"], "answer": "die" },
+    { "type": "multiple_choice", "question": "Welches wort ist kein nomen?", "options": ["tisch", "rennen", "hund", "schule"], "answer": "rennen" },
+    { "type": "multiple_choice", "question": "Ein Nomen kann man am besten erkennen, weil...", "options": ["es immer am Satzanfang steht", "es eine Handlung beschreibt", "man einen Artikel davor setzen kann", "es eine Eigenschaft beschreibt"], "answer": "man einen Artikel davor setzen kann" },
+    { "type": "multiple_choice", "question": "Welcher Artikel gehört zu 'Straße'?", "options": ["der", "die", "das", "ein"], "answer": "die" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Nomen?", "options": ["fliegen", "kalt", "weil", "fenster"], "answer": "fenster" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'das Buch'?", "options": ["die Buchs", "die Bucher", "die Bücher", "die Büchs"], "answer": "die Bücher" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Ball'?", "options": ["die Balls", "die Bälle", "die Ballen", "die Balles"], "answer": "die Bälle" },
+    { "type": "multiple_choice", "question": "Welcher Satz enthält ein Nomen (kein Pronomen)?", "options": ["Sie läuft schnell.", "Das ist sehr schön.", "der hund schläft.", "Er springt hoch."], "answer": "der hund schläft." },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'die Maus'?", "options": ["die Mause", "die Mauses", "die Mäuse", "die Mausen"], "answer": "die Mäuse" },
+    { "type": "multiple_choice", "question": "Welcher Artikel gehört zu 'Kind'?", "options": ["der", "die", "einen", "das"], "answer": "das" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Nomen?", "options": ["lesen", "warm", "ball", "oder"], "answer": "ball" },
+    { "type": "multiple_choice", "question": "Welcher unbestimmte Artikel passt? '___ Hund bellt laut.'", "options": ["Eine", "Das", "Ein", "Die"], "answer": "Ein" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Baum'?", "options": ["die Baums", "die Baume", "die Bäume", "die Bäumen"], "answer": "die Bäume" },
+    { "type": "multiple_choice", "question": "Welcher Artikel gehört zu 'Lehrer'?", "options": ["die", "das", "eine", "der"], "answer": "der" },
+    { "type": "multiple_choice", "question": "Welche Gruppe enthält nur Nomen?", "options": ["laufen, hund, schön", "tisch, schule, apfel", "blau, rennen, über", "spielen, groß, katze"], "answer": "tisch, schule, apfel" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'das Auto'?", "options": ["die Autoen", "die Autös", "die Autos", "die Autoes"], "answer": "die Autos" },
+    { "type": "multiple_choice", "question": "Welcher Satz hat einen Fehler bei der Großschreibung?", "options": ["Die Katze schläft.", "Das Kind spielt.", "Der hund bellt laut.", "Ein Vogel singt."], "answer": "Der hund bellt laut." },
+    { "type": "multiple_choice", "question": "Welche Wörter sind alles Nomen?", "options": ["rennen, blau, schnell", "schule, baum, kind", "spielen, groß, aber", "laufen, warm, weil"], "answer": "schule, baum, kind" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Stuhl'?", "options": ["die Stuhle", "die Stühlen", "die Stühle", "die Stuhlens"], "answer": "die Stühle" },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "___ Hund schläft auf dem Sofa.", "answer": "der" },
+    { "type": "fill_blank", "question": "___ Katze trinkt Milch.", "answer": "die" },
+    { "type": "fill_blank", "question": "___ Kind spielt im Garten.", "answer": "das" },
+    { "type": "fill_blank", "question": "Ich sehe ___ Vogel auf dem Dach.", "answer": "einen" },
+    { "type": "fill_blank", "question": "___ Apfel schmeckt süß.", "answer": "der" },
+    { "type": "fill_blank", "question": "___ Blume wächst im Garten.", "answer": "die" },
+    { "type": "fill_blank", "question": "Der Schüler vergisst ___ Bleistift.", "answer": "einen" },
+    { "type": "fill_blank", "question": "Das Tier, das im Wasser lebt, Schuppen hat und schwimmt, ist ein ___.", "answer": "fisch" },
+    { "type": "fill_blank", "question": "Das Gegenteil von 'Tag' ist die ___.", "answer": "nacht" },
+    { "type": "fill_blank", "question": "In der Schule schreibt man mit einem ___.", "answer": "stift" },
+    { "type": "fill_blank", "question": "Im Winter fällt weißer ___ vom Himmel.", "answer": "schnee" },
+    { "type": "fill_blank", "question": "Der Vater meiner Mutter ist mein ___.", "answer": "opa" },
+    { "type": "fill_blank", "question": "In der Schule liest man aus einem ___.", "answer": "buch" },
+    { "type": "fill_blank", "question": "Das Tier, das Wolle hat und blökt, ist ein ___.", "answer": "schaf" },
+    { "type": "fill_blank", "question": "Die Kinder spielen auf dem ___ vor der Schule.", "answer": "spielplatz" },
+    { "type": "fill_blank", "question": "Nomen schreibt man immer ___.", "answer": "groß" },
+    { "type": "fill_blank", "question": "Das Wort 'Schule' ist ein ___.", "answer": "nomen" },
+    { "type": "fill_blank", "question": "Das Gegenteil von 'Anfang' ist das ___.", "answer": "ende" },
+    { "type": "fill_blank", "question": "Das Wort 'rennen' ist kein Nomen, sondern ein ___.", "answer": "verb" },
+    { "type": "fill_blank", "question": "Der Plural von 'die Katze' ist 'die ___'.", "answer": "katzen" },
+    { "type": "fill_blank", "question": "Der Plural von 'das Buch' ist 'die ___'.", "answer": "bücher" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["schläft", "Der", "Korb", "im", "Hund"], "answer": "Der Hund schläft im Korb" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["auf", "Die", "Sofa", "dem", "Katze", "sitzt"], "answer": "Die Katze sitzt auf dem Sofa" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["liest", "Buch", "ein", "Das", "Kind"], "answer": "Das Kind liest ein Buch" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["vor", "steht", "Schule", "der", "Das", "Fahrrad"], "answer": "Das Fahrrad steht vor der Schule" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["erklärt", "Aufgabe", "Lehrer", "die", "Der"], "answer": "Der Lehrer erklärt die Aufgabe" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["im", "singt", "Baum", "Vogel", "Ein"], "answer": "Ein Vogel singt im Baum" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["Rasen", "Ball", "auf", "liegt", "Der", "dem"], "answer": "Der Ball liegt auf dem Rasen" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["schenkt", "Buch", "Kind", "ein", "Die", "dem", "Lehrerin"], "answer": "Die Lehrerin schenkt dem Kind ein Buch" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["Garten", "wächst", "Blume", "im", "Die"], "answer": "Die Blume wächst im Garten" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["trägt", "Schule", "zur", "Rucksack", "Junge", "seinen", "Der"], "answer": "Der Junge trägt seinen Rucksack zur Schule" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["Milch", "trinkt", "Katze", "Die", "Küche", "der", "in"], "answer": "Die Katze trinkt Milch in der Küche" },
+    { "type": "drag_drop", "question": "Bringe die Wörter in die richtige Reihenfolge:", "words": ["Heft", "gibt", "Der", "Lehrerin", "das", "Schüler", "der"], "answer": "Der Schüler gibt der Lehrerin das Heft" }
+  ],
+
+  // ============================================================
+  // QUIZ: VERBEN & ZEITFORMEN
+  // ============================================================
+  verben: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Was ist ein Verb?", "options": ["Ein Name für Dinge", "Eine Eigenschaft", "Ein Tunwort – es beschreibt eine Handlung", "Ein Verbindungswort"], "answer": "Ein Tunwort – es beschreibt eine Handlung" },
+    { "type": "multiple_choice", "question": "Welche Zeitform ist: 'Er spielt Fußball.'?", "options": ["Präteritum", "Perfekt", "Präsens", "Futur"], "answer": "Präsens" },
+    { "type": "multiple_choice", "question": "Welche Zeitform ist: 'Er spielte Fußball.'?", "options": ["Präsens", "Perfekt", "Futur", "Präteritum"], "answer": "Präteritum" },
+    { "type": "multiple_choice", "question": "Welche Zeitform ist: 'Er hat Fußball gespielt.'?", "options": ["Präsens", "Präteritum", "Perfekt", "Futur"], "answer": "Perfekt" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Verb?", "options": ["schnell", "laufen", "hund", "aber"], "answer": "laufen" },
+    { "type": "multiple_choice", "question": "Wie lautet die richtige Konjugation? 'Ich ___ ins Bett.'", "options": ["gehst", "geht", "gehe", "gehen"], "answer": "gehe" },
+    { "type": "multiple_choice", "question": "Wie lautet die richtige Konjugation? 'Du ___ ein Buch.'", "options": ["lesen", "lese", "liest", "lest"], "answer": "liest" },
+    { "type": "multiple_choice", "question": "Welches Hilfsverb passt? 'Er ___ nach Hause gegangen.'", "options": ["hat", "ist", "war", "haben"], "answer": "ist" },
+    { "type": "multiple_choice", "question": "Welches Hilfsverb passt? 'Sie ___ das Buch gelesen.'", "options": ["ist", "sind", "hat", "haben"], "answer": "hat" },
+    { "type": "multiple_choice", "question": "Welche Zeitform ist: 'Die Katze schlief auf dem Sofa.'?", "options": ["Präsens", "Perfekt", "Futur", "Präteritum"], "answer": "Präteritum" },
+    { "type": "multiple_choice", "question": "Wie lautet die richtige Konjugation? 'Wir ___ Fußball.'", "options": ["spiele", "spielst", "spielt", "spielen"], "answer": "spielen" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Verb?", "options": ["rennen", "groß", "tisch", "weil"], "answer": "rennen" },
+    { "type": "multiple_choice", "question": "Wie lautet das Perfekt von 'spielen'?", "options": ["spielte", "gespielt", "hat gespielt", "hatte gespielt"], "answer": "hat gespielt" },
+    { "type": "multiple_choice", "question": "Wie lautet das Perfekt von 'laufen'?", "options": ["laufte", "hat gelaufen", "ist gelaufen", "hatte gelaufen"], "answer": "ist gelaufen" },
+    { "type": "multiple_choice", "question": "Welches Hilfsverb braucht man für Bewegungsverben wie laufen, gehen, fliegen?", "options": ["sein", "haben", "werden", "war"], "answer": "sein" },
+    { "type": "multiple_choice", "question": "Wie lautet die richtige Konjugation? 'Er ___ sehr gut.'", "options": ["singe", "singst", "singen", "singt"], "answer": "singt" },
+    { "type": "multiple_choice", "question": "Welche Zeitform beschreibt etwas, das gerade passiert?", "options": ["Präteritum", "Perfekt", "Präsens", "Futur"], "answer": "Präsens" },
+    { "type": "multiple_choice", "question": "Wie lautet das Präteritum von 'sein'?", "options": ["hat", "bin", "war", "gewesen"], "answer": "war" },
+    { "type": "multiple_choice", "question": "Wie lautet das Präteritum von 'haben'?", "options": ["ist", "bin", "hat", "hatte"], "answer": "hatte" },
+    { "type": "multiple_choice", "question": "Welches Wort ist kein Verb?", "options": ["schlafen", "rennen", "schnell", "singen"], "answer": "schnell" },
+    { "type": "multiple_choice", "question": "Wie lautet die richtige Konjugation? 'Ihr ___ sehr laut.'", "options": ["lache", "lachst", "lachen", "lacht"], "answer": "lacht" },
+    { "type": "multiple_choice", "question": "Welche Zeitform ist: 'Das Kind hat geschlafen.'?", "options": ["Präsens", "Präteritum", "Futur", "Perfekt"], "answer": "Perfekt" },
+    { "type": "multiple_choice", "question": "Wie lautet die richtige Konjugation? 'Sie (Plural) ___ ins Kino.'", "options": ["gehe", "gehst", "geht", "gehen"], "answer": "gehen" },
+    { "type": "multiple_choice", "question": "Welches Hilfsverb passt? 'Das Baby ___ eingeschlafen.'", "options": ["hat", "haben", "ist", "hatte"], "answer": "ist" },
+    { "type": "multiple_choice", "question": "Wie lautet das Perfekt von 'essen'?", "options": ["aß", "ist gegessen", "hat gegessen", "hatte gegessen"], "answer": "hat gegessen" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Verb?", "options": ["blau", "tisch", "schwimmen", "oder"], "answer": "schwimmen" },
+    { "type": "multiple_choice", "question": "Welche Zeitform benutzt man oft beim Schreiben und Erzählen?", "options": ["Präsens", "Präteritum", "Perfekt", "Futur"], "answer": "Präteritum" },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "Gestern ___ wir im Park gespielt.", "answer": "haben" },
+    { "type": "fill_blank", "question": "Der Hund ___ auf dem Sofa. (jetzt, gerade)", "answer": "schläft" },
+    { "type": "fill_blank", "question": "Letzten Sommer ___ wir ans Meer gefahren.", "answer": "sind" },
+    { "type": "fill_blank", "question": "Das Kind ___ gestern krank. (Präteritum von sein)", "answer": "war" },
+    { "type": "fill_blank", "question": "Er ___ das Buch schon gelesen.", "answer": "hat" },
+    { "type": "fill_blank", "question": "Die Vögel ___ nach Süden geflogen.", "answer": "sind" },
+    { "type": "fill_blank", "question": "Früher ___ ich immer früh aufgestanden.", "answer": "bin" },
+    { "type": "fill_blank", "question": "Sie ___ den ganzen Tag gespielt.", "answer": "hat" },
+    { "type": "fill_blank", "question": "Ich ___ jeden Tag zur Schule. (gehen)", "answer": "gehe" },
+    { "type": "fill_blank", "question": "Du ___ sehr schnell. (laufen)", "answer": "läufst" },
+    { "type": "fill_blank", "question": "Er ___ ein Eis. (essen)", "answer": "isst" },
+    { "type": "fill_blank", "question": "Wir ___ im See. (schwimmen)", "answer": "schwimmen" },
+    { "type": "fill_blank", "question": "Ihr ___ das Lied. (singen)", "answer": "singt" },
+    { "type": "fill_blank", "question": "Sie (Plural) ___ ins Kino. (gehen)", "answer": "gehen" },
+    { "type": "fill_blank", "question": "Das Mädchen ___ ein Buch. (lesen)", "answer": "liest" },
+    { "type": "fill_blank", "question": "Das Wort 'rennen' ist ein ___.", "answer": "verb" },
+    { "type": "fill_blank", "question": "Ein Verb beschreibt eine ___ oder einen Zustand.", "answer": "handlung" },
+    { "type": "fill_blank", "question": "Im Präsens beschreibt man etwas, das ___ passiert.", "answer": "jetzt" },
+    { "type": "fill_blank", "question": "Das Hilfsverb für 'schlafen' im Perfekt ist ___.", "answer": "hat" },
+    { "type": "fill_blank", "question": "Das Hilfsverb für 'laufen' im Perfekt ist ___.", "answer": "ist" },
+    { "type": "fill_blank", "question": "Das Präteritum von 'haben' ist ___.", "answer": "hatte" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "Welche Zeitform ist das? 'Der Hund schläft auf dem Sofa.'", "words": ["Präsens", "Präteritum", "Perfekt", "Futur"], "answer": "Präsens" },
+    { "type": "drag_drop", "question": "Welche Zeitform ist das? 'Sie spielten im Garten.'", "words": ["Präsens", "Präteritum", "Perfekt", "Futur"], "answer": "Präteritum" },
+    { "type": "drag_drop", "question": "Welche Zeitform ist das? 'Wir haben das Buch gelesen.'", "words": ["Präsens", "Präteritum", "Perfekt", "Futur"], "answer": "Perfekt" },
+    { "type": "drag_drop", "question": "Welches Hilfsverb passt? 'Das Kind ___ eingeschlafen.'", "words": ["hat", "ist", "war", "haben"], "answer": "ist" },
+    { "type": "drag_drop", "question": "Welches Hilfsverb passt? 'Er ___ das Eis gegessen.'", "words": ["ist", "sind", "hat", "hatte"], "answer": "hat" },
+    { "type": "drag_drop", "question": "Welches Hilfsverb passt? 'Wir ___ gestern ins Kino gegangen.'", "words": ["hat", "haben", "sind", "ist"], "answer": "sind" },
+    { "type": "drag_drop", "question": "Welche Form passt? 'Ich ___ jeden Tag zur Schule.' (gehen)", "words": ["gehst", "gehe", "geht", "gehen"], "answer": "gehe" },
+    { "type": "drag_drop", "question": "Welche Form passt? 'Du ___ sehr schnell.' (laufen)", "words": ["laufe", "läuft", "läufst", "laufen"], "answer": "läufst" },
+    { "type": "drag_drop", "question": "Welche Form passt? 'Er ___ ein Eis.' (essen)", "words": ["esse", "esst", "essen", "isst"], "answer": "isst" },
+    { "type": "drag_drop", "question": "Welche Form passt? 'Sie (Plural) ___ ins Kino.' (gehen)", "words": ["gehe", "gehst", "geht", "gehen"], "answer": "gehen" },
+    { "type": "drag_drop", "question": "Welches Hilfsverb passt? 'Das Baby ___ den ganzen Tag geschlafen.'", "words": ["ist", "sind", "haben", "hat"], "answer": "hat" },
+    { "type": "drag_drop", "question": "Welches Hilfsverb passt? 'Die Vögel ___ nach Süden geflogen.'", "words": ["hat", "haben", "ist", "sind"], "answer": "sind" }
+  ],
+
+  // ============================================================
+  // QUIZ: SATZGLIEDER
+  // ============================================================
+  satzglieder: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Was ist das Subjekt im Satz?", "options": ["Das Tunwort", "Die Person oder Sache, die etwas tut", "Die Ergänzung", "Das Verbindungswort"], "answer": "Die Person oder Sache, die etwas tut" },
+    { "type": "multiple_choice", "question": "Was fragt man, um das Subjekt zu finden?", "options": ["Wen?", "Wem?", "Wer oder was?", "Wo?"], "answer": "Wer oder was?" },
+    { "type": "multiple_choice", "question": "Was ist das Prädikat im Satz?", "options": ["Die handelnde Person", "Das Verb – die Handlung", "Die Ergänzung", "Der Ort"], "answer": "Das Verb – die Handlung" },
+    { "type": "multiple_choice", "question": "Was fragt man, um das Akkusativobjekt zu finden?", "options": ["Wer?", "Wem?", "Wen oder was?", "Wo?"], "answer": "Wen oder was?" },
+    { "type": "multiple_choice", "question": "Was fragt man, um das Dativobjekt zu finden?", "options": ["Wer?", "Wem?", "Wen?", "Wo?"], "answer": "Wem?" },
+    { "type": "multiple_choice", "question": "Welches Satzglied ist das Subjekt? 'Der Hund bellt laut.'", "options": ["bellt", "laut", "Der Hund", "laut bellt"], "answer": "Der Hund" },
+    { "type": "multiple_choice", "question": "Welches Satzglied ist das Prädikat? 'Das Kind liest ein Buch.'", "options": ["Das Kind", "ein Buch", "liest", "Das"], "answer": "liest" },
+    { "type": "multiple_choice", "question": "Welches Satzglied ist das Akkusativobjekt? 'Der Junge kauft einen Apfel.'", "options": ["Der Junge", "kauft", "einen Apfel", "Der"], "answer": "einen Apfel" },
+    { "type": "multiple_choice", "question": "Welches Satzglied ist das Subjekt? 'Die Katze schläft auf dem Sofa.'", "options": ["schläft", "auf dem Sofa", "dem Sofa", "Die Katze"], "answer": "Die Katze" },
+    { "type": "multiple_choice", "question": "Was ist ein Adverbiale?", "options": ["Das Tunwort", "Die handelnde Person", "Eine Angabe zu Ort, Zeit oder Art", "Das Objekt"], "answer": "Eine Angabe zu Ort, Zeit oder Art" },
+    { "type": "multiple_choice", "question": "Welches Satzglied gibt den Ort an? 'Die Kinder spielen im Garten.'", "options": ["Die Kinder", "spielen", "im Garten", "Die"], "answer": "im Garten" },
+    { "type": "multiple_choice", "question": "Welches Satzglied ist das Prädikat? 'Der Lehrer erklärt die Aufgabe.'", "options": ["Der Lehrer", "die Aufgabe", "Die", "erklärt"], "answer": "erklärt" },
+    { "type": "multiple_choice", "question": "Wie viele Subjekte hat ein normaler Satz?", "options": ["Zwei", "Drei", "Keins", "Eines"], "answer": "Eines" },
+    { "type": "multiple_choice", "question": "Welches Satzglied ist das Dativobjekt? 'Die Mutter gibt dem Kind einen Apfel.'", "options": ["Die Mutter", "gibt", "einen Apfel", "dem Kind"], "answer": "dem Kind" },
+    { "type": "multiple_choice", "question": "Welches Satzglied gibt die Zeit an? 'Gestern spielten wir Fußball.'", "options": ["spielten", "wir", "Fußball", "Gestern"], "answer": "Gestern" },
+    { "type": "multiple_choice", "question": "Was ist das Subjekt? 'Ein Vogel singt im Baum.'", "options": ["singt", "im Baum", "Ein Vogel", "im"], "answer": "Ein Vogel" },
+    { "type": "multiple_choice", "question": "Was ist das Akkusativobjekt? 'Die Lehrerin lobt den Schüler.'", "options": ["Die Lehrerin", "lobt", "den Schüler", "Die"], "answer": "den Schüler" },
+    { "type": "multiple_choice", "question": "Welches Satzglied kann man weglassen ohne den Satz falsch zu machen?", "options": ["Subjekt", "Prädikat", "Adverbiale", "Alle"], "answer": "Adverbiale" },
+    { "type": "multiple_choice", "question": "Was ist das Prädikat? 'Wir laufen jeden Tag in den Park.'", "options": ["Wir", "jeden Tag", "in den Park", "laufen"], "answer": "laufen" },
+    { "type": "multiple_choice", "question": "Was ist das Subjekt? 'Heute backt die Oma einen Kuchen.'", "options": ["Heute", "backt", "einen Kuchen", "die Oma"], "answer": "die Oma" },
+    { "type": "multiple_choice", "question": "Was fragt man nach dem Adverbiale der Zeit?", "options": ["Wo?", "Wie?", "Wann?", "Wer?"], "answer": "Wann?" },
+    { "type": "multiple_choice", "question": "Was ist das Dativobjekt? 'Der Vater schenkt dem Sohn ein Fahrrad.'", "options": ["Der Vater", "schenkt", "ein Fahrrad", "dem Sohn"], "answer": "dem Sohn" },
+    { "type": "multiple_choice", "question": "'___ schläft auf dem Sofa.' – Was fehlt damit der Satz vollständig ist?", "options": ["Prädikat", "Adverbiale", "Objekt", "Subjekt"], "answer": "Subjekt" },
+    { "type": "multiple_choice", "question": "Was ist das Akkusativobjekt? 'Das Mädchen malt ein Bild.'", "options": ["Das Mädchen", "malt", "ein Bild", "Das"], "answer": "ein Bild" },
+    { "type": "multiple_choice", "question": "Welches Satzglied gibt die Art und Weise an? 'Der Hund bellt sehr laut.'", "options": ["Der Hund", "bellt", "sehr laut", "Der"], "answer": "sehr laut" },
+    { "type": "multiple_choice", "question": "Was ist das Subjekt? 'Jeden Morgen trinkt Papa Kaffee.'", "options": ["Jeden Morgen", "trinkt", "Kaffee", "Papa"], "answer": "Papa" },
+    { "type": "multiple_choice", "question": "Welche zwei Satzglieder muss jeder vollständige Satz haben?", "options": ["Subjekt und Objekt", "Prädikat und Objekt", "Objekt und Adverbiale", "Subjekt und Prädikat"], "answer": "Subjekt und Prädikat" },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "'Der Hund bellt laut.' – Was für ein Satzglied ist 'Der Hund'?", "answer": "subjekt" },
+    { "type": "fill_blank", "question": "'Das Kind liest ein Buch.' – Was für ein Satzglied ist 'liest'?", "answer": "prädikat" },
+    { "type": "fill_blank", "question": "'Der Junge kauft einen Apfel.' – Was für ein Satzglied ist 'einen Apfel'?", "answer": "akkusativobjekt" },
+    { "type": "fill_blank", "question": "'Die Mutter gibt dem Kind einen Apfel.' – Was für ein Satzglied ist 'dem Kind'?", "answer": "dativobjekt" },
+    { "type": "fill_blank", "question": "'Die Kinder spielen im Garten.' – Was für ein Satzglied ist 'im Garten'?", "answer": "adverbiale" },
+    { "type": "fill_blank", "question": "'Gestern spielten wir Fußball.' – Was für ein Satzglied ist 'Gestern'?", "answer": "adverbiale" },
+    { "type": "fill_blank", "question": "'Der Lehrer erklärt die Aufgabe.' – Was für ein Satzglied ist 'erklärt'?", "answer": "prädikat" },
+    { "type": "fill_blank", "question": "'Ein Vogel singt im Baum.' – Was für ein Satzglied ist 'Ein Vogel'?", "answer": "subjekt" },
+    { "type": "fill_blank", "question": "'Die Lehrerin lobt den Schüler.' – Was für ein Satzglied ist 'den Schüler'?", "answer": "akkusativobjekt" },
+    { "type": "fill_blank", "question": "'Der Vater schenkt dem Sohn ein Fahrrad.' – Was für ein Satzglied ist 'dem Sohn'?", "answer": "dativobjekt" },
+    { "type": "fill_blank", "question": "'Heute backt die Oma einen Kuchen.' – Was für ein Satzglied ist 'die Oma'?", "answer": "subjekt" },
+    { "type": "fill_blank", "question": "'Wir laufen jeden Tag in den Park.' – Was für ein Satzglied ist 'laufen'?", "answer": "prädikat" },
+    { "type": "fill_blank", "question": "'Der Hund bellt sehr laut.' – Was für ein Satzglied ist 'sehr laut'?", "answer": "adverbiale" },
+    { "type": "fill_blank", "question": "'Die Katze trinkt die Milch.' – Was für ein Satzglied ist 'die Milch'?", "answer": "akkusativobjekt" },
+    { "type": "fill_blank", "question": "Nach dem Subjekt fragt man: '___ oder was?'", "answer": "wer" },
+    { "type": "fill_blank", "question": "Nach dem Akkusativobjekt fragt man: 'Wen oder ___?'", "answer": "was" },
+    { "type": "fill_blank", "question": "Nach dem Dativobjekt fragt man: '___?'", "answer": "wem" },
+    { "type": "fill_blank", "question": "Nach dem Adverbiale des Ortes fragt man: '___?'", "answer": "wo" },
+    { "type": "fill_blank", "question": "Nach dem Adverbiale der Zeit fragt man: '___?'", "answer": "wann" },
+    { "type": "fill_blank", "question": "Nach dem Adverbiale der Art fragt man: '___?'", "answer": "wie" },
+    { "type": "fill_blank", "question": "Jeder vollständige Satz braucht ein Subjekt und ein ___.", "answer": "prädikat" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'Der Hund bellt laut.' – Was ist 'Der Hund'?", "words": ["Subjekt", "Prädikat", "Objekt", "Adverbiale"], "answer": "Subjekt" },
+    { "type": "drag_drop", "question": "'Das Kind liest ein Buch.' – Was ist 'liest'?", "words": ["Subjekt", "Prädikat", "Akkusativobjekt", "Adverbiale"], "answer": "Prädikat" },
+    { "type": "drag_drop", "question": "'Der Junge kauft einen Apfel.' – Was ist 'einen Apfel'?", "words": ["Subjekt", "Prädikat", "Akkusativobjekt", "Dativobjekt"], "answer": "Akkusativobjekt" },
+    { "type": "drag_drop", "question": "'Die Mutter gibt dem Kind einen Apfel.' – Was ist 'dem Kind'?", "words": ["Subjekt", "Akkusativobjekt", "Prädikat", "Dativobjekt"], "answer": "Dativobjekt" },
+    { "type": "drag_drop", "question": "'Die Kinder spielen im Garten.' – Was ist 'im Garten'?", "words": ["Subjekt", "Prädikat", "Akkusativobjekt", "Adverbiale"], "answer": "Adverbiale" },
+    { "type": "drag_drop", "question": "'Gestern spielten wir Fußball.' – Was ist 'Gestern'?", "words": ["Subjekt", "Prädikat", "Dativobjekt", "Adverbiale"], "answer": "Adverbiale" },
+    { "type": "drag_drop", "question": "'Die Lehrerin lobt den Schüler.' – Was ist 'den Schüler'?", "words": ["Subjekt", "Prädikat", "Akkusativobjekt", "Dativobjekt"], "answer": "Akkusativobjekt" },
+    { "type": "drag_drop", "question": "'Der Vater schenkt dem Sohn ein Fahrrad.' – Was ist 'dem Sohn'?", "words": ["Subjekt", "Akkusativobjekt", "Prädikat", "Dativobjekt"], "answer": "Dativobjekt" },
+    { "type": "drag_drop", "question": "'Heute backt die Oma einen Kuchen.' – Was ist 'die Oma'?", "words": ["Subjekt", "Prädikat", "Akkusativobjekt", "Adverbiale"], "answer": "Subjekt" },
+    { "type": "drag_drop", "question": "'Wir laufen jeden Tag in den Park.' – Was ist 'laufen'?", "words": ["Subjekt", "Prädikat", "Dativobjekt", "Adverbiale"], "answer": "Prädikat" },
+    { "type": "drag_drop", "question": "'Der Hund bellt sehr laut.' – Was ist 'sehr laut'?", "words": ["Subjekt", "Prädikat", "Akkusativobjekt", "Adverbiale"], "answer": "Adverbiale" },
+    { "type": "drag_drop", "question": "'Ein Vogel singt im Baum.' – Was ist 'im Baum'?", "words": ["Subjekt", "Prädikat", "Akkusativobjekt", "Adverbiale"], "answer": "Adverbiale" }
+  ],
+
+  // ============================================================
+  // QUIZ: WORTARTEN
+  // ============================================================
+  wortarten: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Was ist ein Adjektiv?", "options": ["Ein Tunwort", "Ein Namenswort", "Ein Eigenschaftswort", "Ein Verbindungswort"], "answer": "Ein Eigenschaftswort" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'laufen'?", "options": ["nomen", "adjektiv", "präposition", "verb"], "answer": "verb" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'Schule'?", "options": ["verb", "adjektiv", "artikel", "nomen"], "answer": "nomen" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'schnell'?", "options": ["nomen", "verb", "artikel", "adjektiv"], "answer": "adjektiv" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'der'?", "options": ["nomen", "verb", "pronomen", "artikel"], "answer": "artikel" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'ich'?", "options": ["nomen", "verb", "adjektiv", "pronomen"], "answer": "pronomen" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'auf'?", "options": ["nomen", "verb", "adjektiv", "präposition"], "answer": "präposition" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'schön'?", "options": ["nomen", "verb", "artikel", "adjektiv"], "answer": "adjektiv" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'spielen'?", "options": ["nomen", "adjektiv", "präposition", "verb"], "answer": "verb" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'Hund'?", "options": ["verb", "adjektiv", "artikel", "nomen"], "answer": "nomen" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'in'?", "options": ["nomen", "verb", "adjektiv", "präposition"], "answer": "präposition" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'sie'?", "options": ["nomen", "verb", "adjektiv", "pronomen"], "answer": "pronomen" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'ein'?", "options": ["nomen", "verb", "pronomen", "artikel"], "answer": "artikel" },
+    { "type": "multiple_choice", "question": "Welche Gruppe enthält nur Verben?", "options": ["laufen, schnell, singen", "laufen, singen, schlafen", "hund, laufen, blau", "schön, groß, klein"], "answer": "laufen, singen, schlafen" },
+    { "type": "multiple_choice", "question": "Welche Gruppe enthält nur Adjektive?", "options": ["laufen, schön, hund", "blau, laufen, groß", "schön, groß, schnell", "hund, blau, rennen"], "answer": "schön, groß, schnell" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'unter'?", "options": ["nomen", "verb", "adjektiv", "präposition"], "answer": "präposition" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'er'?", "options": ["nomen", "verb", "artikel", "pronomen"], "answer": "pronomen" },
+    { "type": "multiple_choice", "question": "Welche Gruppe enthält nur Nomen?", "options": ["hund, laufen, schule", "hund, schule, garten", "laufen, hund, blau", "schön, hund, rennen"], "answer": "hund, schule, garten" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'klein'?", "options": ["nomen", "verb", "artikel", "adjektiv"], "answer": "adjektiv" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'wir'?", "options": ["nomen", "verb", "adjektiv", "pronomen"], "answer": "pronomen" },
+    { "type": "multiple_choice", "question": "Was ist eine Präposition?", "options": ["Ein Tunwort", "Ein Eigenschaftswort", "Ein Verhältniswort – zeigt eine Beziehung an", "Ein Namenswort"], "answer": "Ein Verhältniswort – zeigt eine Beziehung an" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'das'?", "options": ["nomen", "verb", "pronomen", "artikel"], "answer": "artikel" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'über'?", "options": ["nomen", "verb", "adjektiv", "präposition"], "answer": "präposition" },
+    { "type": "multiple_choice", "question": "Welche Gruppe enthält nur Pronomen?", "options": ["ich, laufen, du", "ich, schön, er", "ich, du, er", "ich, hund, wir"], "answer": "ich, du, er" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'alt'?", "options": ["nomen", "verb", "artikel", "adjektiv"], "answer": "adjektiv" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'mit'?", "options": ["nomen", "verb", "adjektiv", "präposition"], "answer": "präposition" },
+    { "type": "multiple_choice", "question": "Welcher Satz enthält ein Adjektiv?", "options": ["Der Hund schläft.", "Wir laufen schnell.", "Sie liest ein Buch.", "Das kleine Kind lacht."], "answer": "Das kleine Kind lacht." },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "'laufen' – Was für eine Wortart ist das?", "answer": "verb" },
+    { "type": "fill_blank", "question": "'Schule' – Was für eine Wortart ist das?", "answer": "nomen" },
+    { "type": "fill_blank", "question": "'schnell' – Was für eine Wortart ist das?", "answer": "adjektiv" },
+    { "type": "fill_blank", "question": "'der' – Was für eine Wortart ist das?", "answer": "artikel" },
+    { "type": "fill_blank", "question": "'ich' – Was für eine Wortart ist das?", "answer": "pronomen" },
+    { "type": "fill_blank", "question": "'auf' – Was für eine Wortart ist das?", "answer": "präposition" },
+    { "type": "fill_blank", "question": "'schön' – Was für eine Wortart ist das?", "answer": "adjektiv" },
+    { "type": "fill_blank", "question": "'Hund' – Was für eine Wortart ist das?", "answer": "nomen" },
+    { "type": "fill_blank", "question": "'sie' – Was für eine Wortart ist das?", "answer": "pronomen" },
+    { "type": "fill_blank", "question": "'in' – Was für eine Wortart ist das?", "answer": "präposition" },
+    { "type": "fill_blank", "question": "'ein' – Was für eine Wortart ist das?", "answer": "artikel" },
+    { "type": "fill_blank", "question": "'spielen' – Was für eine Wortart ist das?", "answer": "verb" },
+    { "type": "fill_blank", "question": "'unter' – Was für eine Wortart ist das?", "answer": "präposition" },
+    { "type": "fill_blank", "question": "'klein' – Was für eine Wortart ist das?", "answer": "adjektiv" },
+    { "type": "fill_blank", "question": "Welche Wortart wird hier erklärt? 'Es beschreibt eine Eigenschaft, z.B. groß, blau, schnell.'", "answer": "adjektiv" },
+    { "type": "fill_blank", "question": "Welche Wortart wird hier erklärt? 'Es beschreibt eine Handlung, z.B. laufen, schlafen, essen.'", "answer": "verb" },
+    { "type": "fill_blank", "question": "Welche Wortart wird hier erklärt? 'Es ist ein Name für Dinge, Personen oder Tiere, z.B. Hund, Schule, Apfel.'", "answer": "nomen" },
+    { "type": "fill_blank", "question": "Welche Wortart wird hier erklärt? 'Es zeigt eine Beziehung zwischen Wörtern an, z.B. auf, in, mit, unter.'", "answer": "präposition" },
+    { "type": "fill_blank", "question": "Welche Wortart wird hier erklärt? 'Es ersetzt einen Namen, z.B. ich, du, er, sie, wir.'", "answer": "pronomen" },
+    { "type": "fill_blank", "question": "Welche Wortart wird hier erklärt? 'Es steht vor einem Nomen, z.B. der, die, das, ein, eine.'", "answer": "artikel" },
+    { "type": "fill_blank", "question": "Welche Wortart wird hier erklärt? 'Es verbindet Sätze oder Satzteile miteinander, z.B. und, aber, weil, oder.'", "answer": "konjunktion" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'laufen' – Welche Wortart?", "words": ["Verb", "Nomen", "Adjektiv", "Präposition"], "answer": "Verb" },
+    { "type": "drag_drop", "question": "'Schule' – Welche Wortart?", "words": ["Verb", "Nomen", "Adjektiv", "Artikel"], "answer": "Nomen" },
+    { "type": "drag_drop", "question": "'schnell' – Welche Wortart?", "words": ["Verb", "Nomen", "Adjektiv", "Präposition"], "answer": "Adjektiv" },
+    { "type": "drag_drop", "question": "'der' – Welche Wortart?", "words": ["Verb", "Nomen", "Artikel", "Pronomen"], "answer": "Artikel" },
+    { "type": "drag_drop", "question": "'ich' – Welche Wortart?", "words": ["Verb", "Nomen", "Artikel", "Pronomen"], "answer": "Pronomen" },
+    { "type": "drag_drop", "question": "'auf' – Welche Wortart?", "words": ["Verb", "Adjektiv", "Artikel", "Präposition"], "answer": "Präposition" },
+    { "type": "drag_drop", "question": "'schön' – Welche Wortart?", "words": ["Verb", "Nomen", "Adjektiv", "Präposition"], "answer": "Adjektiv" },
+    { "type": "drag_drop", "question": "'wir' – Welche Wortart?", "words": ["Verb", "Nomen", "Artikel", "Pronomen"], "answer": "Pronomen" },
+    { "type": "drag_drop", "question": "'mit' – Welche Wortart?", "words": ["Verb", "Adjektiv", "Artikel", "Präposition"], "answer": "Präposition" },
+    { "type": "drag_drop", "question": "'ein' – Welche Wortart?", "words": ["Verb", "Nomen", "Artikel", "Pronomen"], "answer": "Artikel" },
+    { "type": "drag_drop", "question": "'Garten' – Welche Wortart?", "words": ["Verb", "Nomen", "Adjektiv", "Präposition"], "answer": "Nomen" },
+    { "type": "drag_drop", "question": "'schwimmen' – Welche Wortart?", "words": ["Verb", "Nomen", "Adjektiv", "Artikel"], "answer": "Verb" }
+  ],
+
+  // ============================================================
+  // QUIZ: KASUS
+  // ============================================================
+  kasus: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Mit welcher Frage findet man den Nominativ?", "options": ["Wen?", "Wem?", "Wer oder was?", "Wessen?"], "answer": "Wer oder was?" },
+    { "type": "multiple_choice", "question": "Mit welcher Frage findet man den Akkusativ?", "options": ["Wer?", "Wem?", "Wen oder was?", "Wessen?"], "answer": "Wen oder was?" },
+    { "type": "multiple_choice", "question": "Mit welcher Frage findet man den Dativ?", "options": ["Wer?", "Wem?", "Wen?", "Wessen?"], "answer": "Wem?" },
+    { "type": "multiple_choice", "question": "Mit welcher Frage findet man den Genitiv?", "options": ["Wer?", "Wen?", "Wem?", "Wessen?"], "answer": "Wessen?" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'Der Hund' im Satz: 'Der Hund bellt laut.'?", "options": ["Akkusativ", "Dativ", "Genitiv", "Nominativ"], "answer": "Nominativ" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'den Ball' im Satz: 'Der Junge tritt den Ball.'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Akkusativ" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'dem Kind' im Satz: 'Die Mutter gibt dem Kind einen Apfel.'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Dativ" },
+    { "type": "multiple_choice", "question": "Welcher Artikel steht im Nominativ bei einem männlichen Nomen?", "options": ["den", "dem", "des", "der"], "answer": "der" },
+    { "type": "multiple_choice", "question": "Welcher Artikel steht im Akkusativ bei einem männlichen Nomen?", "options": ["der", "dem", "des", "den"], "answer": "den" },
+    { "type": "multiple_choice", "question": "Welcher Artikel steht im Dativ bei einem männlichen Nomen?", "options": ["der", "den", "des", "dem"], "answer": "dem" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'Die Katze' im Satz: 'Die Katze trinkt Milch.'?", "options": ["Akkusativ", "Dativ", "Genitiv", "Nominativ"], "answer": "Nominativ" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'einen Kuchen' im Satz: 'Die Oma backt einen Kuchen.'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Akkusativ" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'der Lehrerin' im Satz: 'Der Schüler gibt der Lehrerin das Heft.'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Dativ" },
+    { "type": "multiple_choice", "question": "Was ist der Nominativ?", "options": ["Der Fall des Objekts", "Der Fall des Subjekts", "Der Fall der Ergänzung", "Der Fall des Besitzes"], "answer": "Der Fall des Subjekts" },
+    { "type": "multiple_choice", "question": "Welcher Artikel steht im Nominativ bei einem weiblichen Nomen?", "options": ["der", "die", "das", "den"], "answer": "die" },
+    { "type": "multiple_choice", "question": "Welcher Artikel steht im Akkusativ bei einem weiblichen Nomen?", "options": ["der", "das", "dem", "die"], "answer": "die" },
+    { "type": "multiple_choice", "question": "Welcher Artikel steht im Dativ bei einem weiblichen Nomen?", "options": ["die", "das", "den", "der"], "answer": "der" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'Das Mädchen' im Satz: 'Das Mädchen liest ein Buch.'?", "options": ["Akkusativ", "Dativ", "Genitiv", "Nominativ"], "answer": "Nominativ" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'dem Hund' im Satz: 'Er gibt dem Hund Futter.'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Dativ" },
+    { "type": "multiple_choice", "question": "Welcher Artikel steht im Nominativ bei einem sächlichen Nomen?", "options": ["der", "die", "den", "das"], "answer": "das" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'ein Buch' im Satz: 'Das Kind liest ein Buch.'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Akkusativ" },
+    { "type": "multiple_choice", "question": "Wie viele Fälle gibt es im Deutschen?", "options": ["Zwei", "Drei", "Vier", "Fünf"], "answer": "Vier" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'des Hundes' im Satz: 'Das Halsband des Hundes ist rot.'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Genitiv" },
+    { "type": "multiple_choice", "question": "Welcher Kasus antwortet auf die Frage 'Wem gehört das?'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Genitiv" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'den Lehrer' im Satz: 'Die Schüler mögen den Lehrer.'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Akkusativ" },
+    { "type": "multiple_choice", "question": "Welcher Artikel steht im Dativ bei einem sächlichen Nomen?", "options": ["das", "die", "den", "dem"], "answer": "dem" },
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'der Katze' im Satz: 'Er streichelt der Katze den Rücken.'?", "options": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Dativ" },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "'Der Hund bellt laut.' – In welchem Kasus steht 'Der Hund'?", "answer": "nominativ" },
+    { "type": "fill_blank", "question": "'Der Junge tritt den Ball.' – In welchem Kasus steht 'den Ball'?", "answer": "akkusativ" },
+    { "type": "fill_blank", "question": "'Die Mutter gibt dem Kind einen Apfel.' – In welchem Kasus steht 'dem Kind'?", "answer": "dativ" },
+    { "type": "fill_blank", "question": "'Das Halsband des Hundes ist rot.' – In welchem Kasus steht 'des Hundes'?", "answer": "genitiv" },
+    { "type": "fill_blank", "question": "'Die Katze trinkt Milch.' – In welchem Kasus steht 'Die Katze'?", "answer": "nominativ" },
+    { "type": "fill_blank", "question": "'Die Oma backt einen Kuchen.' – In welchem Kasus steht 'einen Kuchen'?", "answer": "akkusativ" },
+    { "type": "fill_blank", "question": "'Der Schüler gibt der Lehrerin das Heft.' – In welchem Kasus steht 'der Lehrerin'?", "answer": "dativ" },
+    { "type": "fill_blank", "question": "'Das Mädchen liest ein Buch.' – In welchem Kasus steht 'Das Mädchen'?", "answer": "nominativ" },
+    { "type": "fill_blank", "question": "'Er gibt dem Hund Futter.' – In welchem Kasus steht 'dem Hund'?", "answer": "dativ" },
+    { "type": "fill_blank", "question": "'Das Kind liest ein Buch.' – In welchem Kasus steht 'ein Buch'?", "answer": "akkusativ" },
+    { "type": "fill_blank", "question": "'Die Schüler mögen den Lehrer.' – In welchem Kasus steht 'den Lehrer'?", "answer": "akkusativ" },
+    { "type": "fill_blank", "question": "'Er streichelt der Katze den Rücken.' – In welchem Kasus steht 'der Katze'?", "answer": "dativ" },
+    { "type": "fill_blank", "question": "'Das Fahrrad des Kindes ist neu.' – In welchem Kasus steht 'des Kindes'?", "answer": "genitiv" },
+    { "type": "fill_blank", "question": "'Die Lehrerin lobt den Schüler.' – In welchem Kasus steht 'Die Lehrerin'?", "answer": "nominativ" },
+    { "type": "fill_blank", "question": "Nach dem Nominativ fragt man: '___?'", "answer": "wer oder was" },
+    { "type": "fill_blank", "question": "Nach dem Akkusativ fragt man: '___?'", "answer": "wen oder was" },
+    { "type": "fill_blank", "question": "Nach dem Dativ fragt man: '___?'", "answer": "wem" },
+    { "type": "fill_blank", "question": "Nach dem Genitiv fragt man: '___?'", "answer": "wessen" },
+    { "type": "fill_blank", "question": "Der Kasus des Subjekts ist der ___.", "answer": "nominativ" },
+    { "type": "fill_blank", "question": "Der Kasus, der Besitz anzeigt, ist der ___.", "answer": "genitiv" },
+    { "type": "fill_blank", "question": "Der Kasus des Akkusativobjekts ist der ___.", "answer": "akkusativ" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'Der Hund bellt laut.' – In welchem Kasus steht 'Der Hund'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Nominativ" },
+    { "type": "drag_drop", "question": "'Der Junge tritt den Ball.' – In welchem Kasus steht 'den Ball'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Akkusativ" },
+    { "type": "drag_drop", "question": "'Die Mutter gibt dem Kind einen Apfel.' – In welchem Kasus steht 'dem Kind'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Dativ" },
+    { "type": "drag_drop", "question": "'Das Halsband des Hundes ist rot.' – In welchem Kasus steht 'des Hundes'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Genitiv" },
+    { "type": "drag_drop", "question": "'Die Oma backt einen Kuchen.' – In welchem Kasus steht 'einen Kuchen'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Akkusativ" },
+    { "type": "drag_drop", "question": "'Der Schüler gibt der Lehrerin das Heft.' – In welchem Kasus steht 'der Lehrerin'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Dativ" },
+    { "type": "drag_drop", "question": "'Die Schüler mögen den Lehrer.' – In welchem Kasus steht 'den Lehrer'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Akkusativ" },
+    { "type": "drag_drop", "question": "'Das Fahrrad des Kindes ist neu.' – In welchem Kasus steht 'des Kindes'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Genitiv" },
+    { "type": "drag_drop", "question": "'Er gibt dem Hund Futter.' – In welchem Kasus steht 'dem Hund'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Dativ" },
+    { "type": "drag_drop", "question": "Männliches Nomen im Akkusativ – Welcher Artikel?", "words": ["der", "die", "den", "dem"], "answer": "den" },
+    { "type": "drag_drop", "question": "Weibliches Nomen im Dativ – Welcher Artikel?", "words": ["die", "der", "das", "dem"], "answer": "der" },
+    { "type": "drag_drop", "question": "Männliches Nomen im Nominativ – Welcher Artikel?", "words": ["den", "dem", "der", "des"], "answer": "der" }
+  ],
+
+  // ============================================================
+  // QUIZ: KONJUNKTIONEN
+  // ============================================================
+  konjunktionen: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Was ist eine Konjunktion?", "options": ["Ein Eigenschaftswort", "Ein Tunwort", "Ein Verbindungswort das Sätze verbindet", "Ein Namenswort"], "answer": "Ein Verbindungswort das Sätze verbindet" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Ich mag Hunde ___ ich mag auch Katzen.'", "options": ["aber", "weil", "und", "obwohl"], "answer": "und" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Er will spielen, ___ er muss zuerst seine Hausaufgaben machen.'", "options": ["und", "weil", "dass", "aber"], "answer": "aber" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Willst du Fußball spielen ___ lieber schwimmen gehen?'", "options": ["und", "aber", "weil", "oder"], "answer": "oder" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Sie weint, ___ sie hingefallen ist.'", "options": ["aber", "und", "oder", "weil"], "answer": "weil" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Er sagt, ___ er morgen kommt.'", "options": ["weil", "obwohl", "dass", "wenn"], "answer": "dass" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Sie lacht, ___ sie traurig ist.'", "options": ["weil", "und", "dass", "obwohl"], "answer": "obwohl" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? '___ es regnet, bleiben wir drinnen.'", "options": ["Obwohl", "Dass", "Weil", "Wenn"], "answer": "Wenn" },
+    { "type": "multiple_choice", "question": "Was verbindet eine Konjunktion?", "options": ["Nur Nomen", "Nur Verben", "Sätze oder Satzteile", "Nur Adjektive"], "answer": "Sätze oder Satzteile" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion drückt einen Gegensatz aus?", "options": ["und", "aber", "oder", "dass"], "answer": "aber" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion drückt einen Grund aus?", "options": ["und", "aber", "weil", "oder"], "answer": "weil" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion drückt eine Möglichkeit aus?", "options": ["und", "aber", "weil", "oder"], "answer": "oder" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Ich freue mich, ___ du mich besuchst.'", "options": ["obwohl", "aber", "wenn", "weil"], "answer": "wenn" },
+    { "type": "multiple_choice", "question": "Was kommt nach 'weil' im Satz?", "options": ["Das Verb steht an zweiter Stelle", "Das Verb steht am Ende", "Das Verb steht am Anfang", "Kein Verb nötig"], "answer": "Das Verb steht am Ende" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Er isst kein Gemüse, ___ er weiß dass es gesund ist.'", "options": ["weil", "und", "dass", "obwohl"], "answer": "obwohl" },
+    { "type": "multiple_choice", "question": "Was kommt nach 'obwohl' im Satz?", "options": ["Das Verb steht an zweiter Stelle", "Das Verb steht am Anfang", "Das Verb steht am Ende", "Kein Verb nötig"], "answer": "Das Verb steht am Ende" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Ich weiß, ___ du Recht hast.'", "options": ["weil", "obwohl", "dass", "wenn"], "answer": "dass" },
+    { "type": "multiple_choice", "question": "Welche Konjunktionen nennt man 'Hauptsatzkonjunktionen'?", "options": ["weil, dass, obwohl", "und, aber, oder", "wenn, weil, obwohl", "dass, wenn, oder"], "answer": "und, aber, oder" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Sie mag Sport, ___ sie hasst Schwimmen.'", "options": ["und", "weil", "aber", "obwohl"], "answer": "aber" },
+    { "type": "multiple_choice", "question": "Welche Konjunktionen schicken das Verb ans Ende?", "options": ["und, aber, oder", "weil, dass, obwohl, wenn", "und, weil, oder", "aber, oder, wenn"], "answer": "weil, dass, obwohl, wenn" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Wir gehen spazieren, ___ die Sonne scheint.'", "options": ["aber", "obwohl", "dass", "wenn"], "answer": "wenn" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist korrekt?", "options": ["Ich bleibe zuhause, weil es regnet nicht.", "Ich bleibe zuhause, weil es nicht regnet nicht.", "Ich bleibe zuhause, weil es nicht regnet.", "Ich bleibe, weil regnet es nicht."], "answer": "Ich bleibe zuhause, weil es nicht regnet." },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Er lernt viel, ___ er gute Noten bekommt.'", "options": ["obwohl", "aber", "weil", "oder"], "answer": "weil" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist korrekt?", "options": ["Sie kommt, obwohl sie ist müde.", "Sie kommt, obwohl sie müde ist.", "Sie kommt obwohl, sie müde ist.", "Sie kommt, obwohl müde sie ist."], "answer": "Sie kommt, obwohl sie müde ist." },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Ich esse einen Apfel ___ eine Banane.'", "options": ["weil", "obwohl", "oder", "dass"], "answer": "oder" },
+    { "type": "multiple_choice", "question": "Was ist der Unterschied zwischen 'und' und 'aber'?", "options": ["Kein Unterschied", "'und' verbindet Gegensätze, 'aber' verbindet Gleiches", "'und' verbindet Gleiches, 'aber' verbindet Gegensätze", "Beide drücken einen Grund aus"], "answer": "'und' verbindet Gleiches, 'aber' verbindet Gegensätze" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Das Kind weint, ___ es hingefallen ist.'", "options": ["obwohl", "dass", "wenn", "weil"], "answer": "weil" },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "Ich mag Fußball ___ ich mag auch Basketball.", "answer": "und" },
+    { "type": "fill_blank", "question": "Er will spielen, ___ er muss zuerst lernen.", "answer": "aber" },
+    { "type": "fill_blank", "question": "Möchtest du Tee ___ lieber Kakao?", "answer": "oder" },
+    { "type": "fill_blank", "question": "Sie weint, ___ sie hingefallen ist.", "answer": "weil" },
+    { "type": "fill_blank", "question": "Er sagt, ___ er morgen kommt.", "answer": "dass" },
+    { "type": "fill_blank", "question": "Sie lacht, ___ sie eigentlich traurig ist.", "answer": "obwohl" },
+    { "type": "fill_blank", "question": "___ es schneit, bleiben wir zuhause.", "answer": "wenn" },
+    { "type": "fill_blank", "question": "Ich weiß, ___ du Recht hast.", "answer": "dass" },
+    { "type": "fill_blank", "question": "Er isst Spinat, ___ er ihn nicht mag.", "answer": "obwohl" },
+    { "type": "fill_blank", "question": "Wir spielen draußen, ___ es nicht regnet.", "answer": "wenn" },
+    { "type": "fill_blank", "question": "Sie lernt viel, ___ sie die Prüfung besteht.", "answer": "weil" },
+    { "type": "fill_blank", "question": "Sie bleibt zuhause, ___ sie krank ist.", "answer": "weil" },
+    { "type": "fill_blank", "question": "Er schläft früh, ___ er morgen früh aufstehen muss.", "answer": "weil" },
+    { "type": "fill_blank", "question": "Kommst du mit ___ bleibst du zuhause?", "answer": "oder" },
+    { "type": "fill_blank", "question": "Welche Konjunktion wird hier erklärt? 'Sie verbindet zwei Dinge die zusammenpassen, z.B. Ich mag Hunde ___ Katzen.'", "answer": "und" },
+    { "type": "fill_blank", "question": "Welche Konjunktion wird hier erklärt? 'Sie zeigt einen Gegensatz, z.B. Er ist groß, ___ sie ist klein.'", "answer": "aber" },
+    { "type": "fill_blank", "question": "Welche Konjunktion wird hier erklärt? 'Sie gibt eine Auswahl, z.B. Möchtest du Apfel ___ Banane?'", "answer": "oder" },
+    { "type": "fill_blank", "question": "Welche Konjunktion wird hier erklärt? 'Sie nennt einen Grund, z.B. Er bleibt zuhause, ___ er krank ist.'", "answer": "weil" },
+    { "type": "fill_blank", "question": "Welche Konjunktion wird hier erklärt? 'Sie leitet einen Nebensatz ein, z.B. Er sagt, ___ er kommt.'", "answer": "dass" },
+    { "type": "fill_blank", "question": "Welche Konjunktion wird hier erklärt? 'Sie zeigt einen Widerspruch, z.B. Sie lacht, ___ sie traurig ist.'", "answer": "obwohl" },
+    { "type": "fill_blank", "question": "Welche Konjunktion wird hier erklärt? 'Sie beschreibt eine Bedingung, z.B. ___ es regnet, bleiben wir drinnen.'", "answer": "wenn" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'Ich mag Hunde ___ ich mag auch Katzen.'", "words": ["und", "aber", "weil", "obwohl"], "answer": "und" },
+    { "type": "drag_drop", "question": "'Er will spielen, ___ er muss zuerst lernen.'", "words": ["und", "aber", "weil", "wenn"], "answer": "aber" },
+    { "type": "drag_drop", "question": "'Möchtest du Fußball spielen ___ lieber schwimmen?'", "words": ["und", "aber", "oder", "weil"], "answer": "oder" },
+    { "type": "drag_drop", "question": "'Sie weint, ___ sie hingefallen ist.'", "words": ["aber", "und", "oder", "weil"], "answer": "weil" },
+    { "type": "drag_drop", "question": "'Er sagt, ___ er morgen kommt.'", "words": ["weil", "obwohl", "dass", "wenn"], "answer": "dass" },
+    { "type": "drag_drop", "question": "'Sie lacht, ___ sie traurig ist.'", "words": ["weil", "und", "dass", "obwohl"], "answer": "obwohl" },
+    { "type": "drag_drop", "question": "'___ es regnet, bleiben wir drinnen.'", "words": ["Obwohl", "Dass", "Weil", "Wenn"], "answer": "Wenn" },
+    { "type": "drag_drop", "question": "'Ich weiß, ___ du Recht hast.'", "words": ["weil", "obwohl", "dass", "wenn"], "answer": "dass" },
+    { "type": "drag_drop", "question": "'Er isst Spinat, ___ er ihn nicht mag.'", "words": ["weil", "und", "dass", "obwohl"], "answer": "obwohl" },
+    { "type": "drag_drop", "question": "'Wir gehen spazieren, ___ die Sonne scheint.'", "words": ["aber", "obwohl", "dass", "wenn"], "answer": "wenn" },
+    { "type": "drag_drop", "question": "'Das Kind weint, ___ es hingefallen ist.'", "words": ["obwohl", "dass", "wenn", "weil"], "answer": "weil" },
+    { "type": "drag_drop", "question": "'Kommst du mit ___ bleibst du zuhause?'", "words": ["und", "aber", "oder", "weil"], "answer": "oder" }
+  ],
+
+  // ============================================================
+  // QUIZ: ADJEKTIVE & STEIGERUNG
+  // ============================================================
+  adjektive: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Was ist ein Adjektiv?", "options": ["Ein Tunwort", "Ein Namenswort", "Ein Eigenschaftswort", "Ein Verbindungswort"], "answer": "Ein Eigenschaftswort" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Adjektiv?", "options": ["laufen", "schnell", "hund", "und"], "answer": "schnell" },
+    { "type": "multiple_choice", "question": "Was ist der Komparativ von 'groß'?", "options": ["am größten", "großer", "größer", "am größer"], "answer": "größer" },
+    { "type": "multiple_choice", "question": "Was ist der Superlativ von 'groß'?", "options": ["größer", "groß", "größten", "am größten"], "answer": "am größten" },
+    { "type": "multiple_choice", "question": "Was ist der Komparativ von 'klein'?", "options": ["am kleinsten", "kleiner", "kleinste", "am kleiner"], "answer": "kleiner" },
+    { "type": "multiple_choice", "question": "Was ist der Superlativ von 'schnell'?", "options": ["schneller", "schnellste", "am schnellsten", "am schneller"], "answer": "am schnellsten" },
+    { "type": "multiple_choice", "question": "Welche Steigerungsform ist 'schöner'?", "options": ["Grundform", "Komparativ", "Superlativ", "Keine Steigerung"], "answer": "Komparativ" },
+    { "type": "multiple_choice", "question": "Welche Steigerungsform ist 'am lautesten'?", "options": ["Grundform", "Komparativ", "Superlativ", "Keine Steigerung"], "answer": "Superlativ" },
+    { "type": "multiple_choice", "question": "Welche Steigerungsform ist 'kalt'?", "options": ["Grundform", "Komparativ", "Superlativ", "Keine Steigerung"], "answer": "Grundform" },
+    { "type": "multiple_choice", "question": "Was ist der Komparativ von 'gut'?", "options": ["am besten", "guter", "besser", "am besser"], "answer": "besser" },
+    { "type": "multiple_choice", "question": "Was ist der Superlativ von 'gut'?", "options": ["besser", "gut", "besten", "am besten"], "answer": "am besten" },
+    { "type": "multiple_choice", "question": "Was ist der Komparativ von 'viel'?", "options": ["am meisten", "vieler", "mehr", "vielste"], "answer": "mehr" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Adjektiv?", "options": ["spielen", "blau", "tisch", "weil"], "answer": "blau" },
+    { "type": "multiple_choice", "question": "Was ist der Superlativ von 'kalt'?", "options": ["kälter", "kalt", "kälteste", "am kältesten"], "answer": "am kältesten" },
+    { "type": "multiple_choice", "question": "Was ist der Komparativ von 'hoch'?", "options": ["am höchsten", "hocher", "höher", "am höher"], "answer": "höher" },
+    { "type": "multiple_choice", "question": "Welcher Satz enthält ein Adjektiv?", "options": ["Der Hund schläft.", "Wir laufen schnell.", "Das kleine Kind lacht.", "Sie liest ein Buch."], "answer": "Das kleine Kind lacht." },
+    { "type": "multiple_choice", "question": "Was ist der Superlativ von 'viel'?", "options": ["mehr", "vielsten", "vieler", "am meisten"], "answer": "am meisten" },
+    { "type": "multiple_choice", "question": "Was ist der Komparativ von 'alt'?", "options": ["am ältesten", "alter", "älter", "am alter"], "answer": "älter" },
+    { "type": "multiple_choice", "question": "Was ist der Superlativ von 'alt'?", "options": ["älter", "alt", "älteste", "am ältesten"], "answer": "am ältesten" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Adjektiv?", "options": ["rennen", "warm", "schule", "oder"], "answer": "warm" },
+    { "type": "multiple_choice", "question": "Was ist der Komparativ von 'lang'?", "options": ["am längsten", "langer", "länger", "am langer"], "answer": "länger" },
+    { "type": "multiple_choice", "question": "Was ist der Superlativ von 'lang'?", "options": ["länger", "lang", "längste", "am längsten"], "answer": "am längsten" },
+    { "type": "multiple_choice", "question": "Wie nennt man die Grundform eines Adjektivs?", "options": ["Komparativ", "Superlativ", "Grundform", "Neutral"], "answer": "Grundform" },
+    { "type": "multiple_choice", "question": "Was ist der Komparativ von 'schön'?", "options": ["am schönsten", "schönste", "schöner", "am schöner"], "answer": "schöner" },
+    { "type": "multiple_choice", "question": "Was ist der Superlativ von 'klein'?", "options": ["kleiner", "klein", "kleinste", "am kleinsten"], "answer": "am kleinsten" },
+    { "type": "multiple_choice", "question": "Welche Steigerungsform benutzt man wenn man zwei Dinge vergleicht?", "options": ["Grundform", "Komparativ", "Superlativ", "Keine"], "answer": "Komparativ" },
+    { "type": "multiple_choice", "question": "Welche Steigerungsform benutzt man wenn etwas das Allermeiste ist?", "options": ["Grundform", "Komparativ", "Superlativ", "Keine"], "answer": "Superlativ" },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "Der Komparativ von 'groß' ist ___.", "answer": "größer" },
+    { "type": "fill_blank", "question": "Der Superlativ von 'groß' ist ___.", "answer": "am größten" },
+    { "type": "fill_blank", "question": "Der Komparativ von 'schnell' ist ___.", "answer": "schneller" },
+    { "type": "fill_blank", "question": "Der Superlativ von 'schnell' ist ___.", "answer": "am schnellsten" },
+    { "type": "fill_blank", "question": "Der Komparativ von 'gut' ist ___.", "answer": "besser" },
+    { "type": "fill_blank", "question": "Der Superlativ von 'gut' ist ___.", "answer": "am besten" },
+    { "type": "fill_blank", "question": "Der Komparativ von 'kalt' ist ___.", "answer": "kälter" },
+    { "type": "fill_blank", "question": "Der Superlativ von 'kalt' ist ___.", "answer": "am kältesten" },
+    { "type": "fill_blank", "question": "Der Komparativ von 'alt' ist ___.", "answer": "älter" },
+    { "type": "fill_blank", "question": "Der Superlativ von 'alt' ist ___.", "answer": "am ältesten" },
+    { "type": "fill_blank", "question": "Der Komparativ von 'viel' ist ___.", "answer": "mehr" },
+    { "type": "fill_blank", "question": "Der Superlativ von 'viel' ist ___.", "answer": "am meisten" },
+    { "type": "fill_blank", "question": "Der Komparativ von 'lang' ist ___.", "answer": "länger" },
+    { "type": "fill_blank", "question": "Der Superlativ von 'lang' ist ___.", "answer": "am längsten" },
+    { "type": "fill_blank", "question": "'Das kleine Kind lacht.' – Was für eine Wortart ist 'kleine'?", "answer": "adjektiv" },
+    { "type": "fill_blank", "question": "'Der schnelle Hund läuft weg.' – Was für eine Wortart ist 'schnelle'?", "answer": "adjektiv" },
+    { "type": "fill_blank", "question": "Die Grundform eines Adjektivs nennt man ___.", "answer": "grundform" },
+    { "type": "fill_blank", "question": "Wenn man zwei Dinge vergleicht benutzt man den ___.", "answer": "komparativ" },
+    { "type": "fill_blank", "question": "Wenn etwas das Allermeiste ist benutzt man den ___.", "answer": "superlativ" },
+    { "type": "fill_blank", "question": "Das Wort 'schön' ist ein ___.", "answer": "adjektiv" },
+    { "type": "fill_blank", "question": "Adjektive beschreiben eine ___ von Nomen.", "answer": "eigenschaft" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'groß – ___ – am größten' – Welcher Komparativ fehlt?", "words": ["größte", "größer", "am größer", "großer"], "answer": "größer" },
+    { "type": "drag_drop", "question": "'schnell – schneller – ___' – Welcher Superlativ fehlt?", "words": ["am schnellsten", "schnellste", "am schneller", "schnellsten"], "answer": "am schnellsten" },
+    { "type": "drag_drop", "question": "'gut – ___ – am besten' – Welcher Komparativ fehlt?", "words": ["am besser", "guter", "besser", "am besten"], "answer": "besser" },
+    { "type": "drag_drop", "question": "'kalt – kälter – ___' – Welcher Superlativ fehlt?", "words": ["kälteste", "am kälter", "kälteren", "am kältesten"], "answer": "am kältesten" },
+    { "type": "drag_drop", "question": "'Das Kind ist groß. Der Vater ist ___.' – Komparativ?", "words": ["am größten", "große", "größer", "großer"], "answer": "größer" },
+    { "type": "drag_drop", "question": "'Tim läuft schnell. Sara läuft ___.' – Komparativ?", "words": ["am schnellsten", "schnellste", "schneller", "schnellsten"], "answer": "schneller" },
+    { "type": "drag_drop", "question": "'viel – ___ – am meisten' – Welcher Komparativ fehlt?", "words": ["vieler", "vielste", "mehr", "am mehr"], "answer": "mehr" },
+    { "type": "drag_drop", "question": "'alt – älter – ___' – Welcher Superlativ fehlt?", "words": ["älteste", "am ältere", "älteren", "am ältesten"], "answer": "am ältesten" },
+    { "type": "drag_drop", "question": "'Das ist das ___ Tier im Zoo.' – Superlativ von 'groß'?", "words": ["größere", "großeste", "größte", "am größte"], "answer": "größte" },
+    { "type": "drag_drop", "question": "'schön' – Welche Steigerungsform ist das?", "words": ["Komparativ", "Superlativ", "Grundform", "Neutral"], "answer": "Grundform" },
+    { "type": "drag_drop", "question": "'am schönsten' – Welche Steigerungsform ist das?", "words": ["Grundform", "Komparativ", "Neutral", "Superlativ"], "answer": "Superlativ" },
+    { "type": "drag_drop", "question": "'schöner' – Welche Steigerungsform ist das?", "words": ["Grundform", "Superlativ", "Neutral", "Komparativ"], "answer": "Komparativ" }
+  ],
+
+  // ============================================================
+  // QUIZ: SATZARTEN
+  // ============================================================
+  satzarten: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Welche Satzarten gibt es?", "options": ["Kurzsatz, Langsatz, Fragesatz", "Aussagesatz, Fragesatz, Ausrufsatz, Aufforderungssatz", "Hauptsatz, Nebensatz, Fragesatz", "Nominalsatz, Verbalsatz, Fragesatz"], "answer": "Aussagesatz, Fragesatz, Ausrufsatz, Aufforderungssatz" },
+    { "type": "multiple_choice", "question": "Mit welchem Satzzeichen endet ein Aussagesatz?", "options": ["?", "!", ",", "."], "answer": "." },
+    { "type": "multiple_choice", "question": "Mit welchem Satzzeichen endet ein Fragesatz?", "options": [".", "!", ",", "?"], "answer": "?" },
+    { "type": "multiple_choice", "question": "Mit welchem Satzzeichen endet ein Ausrufsatz?", "options": [".", "?", ",", "!"], "answer": "!" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Der Hund schläft auf dem Sofa.'", "options": ["Fragesatz", "Ausrufsatz", "Aufforderungssatz", "Aussagesatz"], "answer": "Aussagesatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Wo ist mein Rucksack?'", "options": ["Aussagesatz", "Ausrufsatz", "Aufforderungssatz", "Fragesatz"], "answer": "Fragesatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Das ist ja unglaublich!'", "options": ["Aussagesatz", "Fragesatz", "Aufforderungssatz", "Ausrufsatz"], "answer": "Ausrufsatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Räum bitte dein Zimmer auf!'", "options": ["Aussagesatz", "Fragesatz", "Ausrufsatz", "Aufforderungssatz"], "answer": "Aufforderungssatz" },
+    { "type": "multiple_choice", "question": "Wo steht das Verb im Aussagesatz?", "options": ["Am Anfang", "Am Ende", "An zweiter Stelle", "Irgendwo"], "answer": "An zweiter Stelle" },
+    { "type": "multiple_choice", "question": "Wo steht das Verb im Fragesatz ohne Fragewort?", "options": ["An zweiter Stelle", "Am Ende", "Am Anfang", "Irgendwo"], "answer": "Am Anfang" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Wie heißt du?'", "options": ["Aussagesatz", "Ausrufsatz", "Aufforderungssatz", "Fragesatz"], "answer": "Fragesatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Komm sofort her!'", "options": ["Aussagesatz", "Fragesatz", "Ausrufsatz", "Aufforderungssatz"], "answer": "Aufforderungssatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Heute scheint die Sonne.'", "options": ["Fragesatz", "Ausrufsatz", "Aufforderungssatz", "Aussagesatz"], "answer": "Aussagesatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Was für ein toller Tag!'", "options": ["Aussagesatz", "Fragesatz", "Aufforderungssatz", "Ausrufsatz"], "answer": "Ausrufsatz" },
+    { "type": "multiple_choice", "question": "Mit welchem Satzzeichen endet ein Aufforderungssatz?", "options": [".", "?", ",", "!"], "answer": "!" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Kannst du mir bitte helfen?'", "options": ["Aussagesatz", "Ausrufsatz", "Aufforderungssatz", "Fragesatz"], "answer": "Fragesatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Sei bitte leise!'", "options": ["Aussagesatz", "Fragesatz", "Ausrufsatz", "Aufforderungssatz"], "answer": "Aufforderungssatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Wir fahren morgen in den Urlaub.'", "options": ["Fragesatz", "Ausrufsatz", "Aufforderungssatz", "Aussagesatz"], "answer": "Aussagesatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Das schmeckt ja wunderbar!'", "options": ["Aussagesatz", "Fragesatz", "Aufforderungssatz", "Ausrufsatz"], "answer": "Ausrufsatz" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist ein Fragesatz?", "options": ["Der Hund bellt laut.", "Bring mir bitte das Buch!", "Hast du deine Hausaufgaben gemacht?", "Das Wetter ist schön."], "answer": "Hast du deine Hausaufgaben gemacht?" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist ein Aufforderungssatz?", "options": ["Wie spät ist es?", "Das ist toll!", "Die Katze schläft.", "Wasch dir die Hände!"], "answer": "Wasch dir die Hände!" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist ein Aussagesatz?", "options": ["Wie heißt du?", "Lauf schneller!", "Das Kind spielt im Garten.", "Was für ein Lärm!"], "answer": "Das Kind spielt im Garten." },
+    { "type": "multiple_choice", "question": "Welcher Satz ist ein Ausrufsatz?", "options": ["Der Hund schläft.", "Komm her!", "Wo bist du?", "Das ist ja fantastisch!"], "answer": "Das ist ja fantastisch!" },
+    { "type": "multiple_choice", "question": "Was ist typisch für einen Aufforderungssatz?", "options": ["Er beginnt mit einem Fragewort", "Er endet mit einem Punkt", "Er enthält eine Aufforderung oder einen Befehl", "Er drückt eine Meinung aus"], "answer": "Er enthält eine Aufforderung oder einen Befehl" },
+    { "type": "multiple_choice", "question": "Welches Satzzeichen kann sowohl nach einem Ausrufsatz als auch nach einem Aufforderungssatz stehen?", "options": [".", "?", ",", "!"], "answer": "!" },
+    { "type": "multiple_choice", "question": "Was ist typisch für einen Fragesatz?", "options": ["Er endet mit einem Punkt", "Er enthält einen Befehl", "Er stellt eine Frage und endet mit einem Fragezeichen", "Er drückt Begeisterung aus"], "answer": "Er stellt eine Frage und endet mit einem Fragezeichen" },
+    { "type": "multiple_choice", "question": "Welcher Satz hat das falsche Satzzeichen?", "options": ["Der Hund schläft.", "Wo bist du?", "Das ist toll!", "Komm her."], "answer": "Komm her." },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "'Der Hund schläft auf dem Sofa.' – Was für eine Satzart ist das?", "answer": "aussagesatz" },
+    { "type": "fill_blank", "question": "'Wo ist mein Rucksack?' – Was für eine Satzart ist das?", "answer": "fragesatz" },
+    { "type": "fill_blank", "question": "'Das ist ja unglaublich!' – Was für eine Satzart ist das?", "answer": "ausrufsatz" },
+    { "type": "fill_blank", "question": "'Räum bitte dein Zimmer auf!' – Was für eine Satzart ist das?", "answer": "aufforderungssatz" },
+    { "type": "fill_blank", "question": "'Heute scheint die Sonne.' – Was für eine Satzart ist das?", "answer": "aussagesatz" },
+    { "type": "fill_blank", "question": "'Wie heißt du?' – Was für eine Satzart ist das?", "answer": "fragesatz" },
+    { "type": "fill_blank", "question": "'Komm sofort her!' – Was für eine Satzart ist das?", "answer": "aufforderungssatz" },
+    { "type": "fill_blank", "question": "'Was für ein toller Tag!' – Was für eine Satzart ist das?", "answer": "ausrufsatz" },
+    { "type": "fill_blank", "question": "'Wir fahren morgen in den Urlaub.' – Was für eine Satzart ist das?", "answer": "aussagesatz" },
+    { "type": "fill_blank", "question": "'Hast du deine Hausaufgaben gemacht?' – Was für eine Satzart ist das?", "answer": "fragesatz" },
+    { "type": "fill_blank", "question": "'Wasch dir die Hände!' – Was für eine Satzart ist das?", "answer": "aufforderungssatz" },
+    { "type": "fill_blank", "question": "'Das ist ja fantastisch!' – Was für eine Satzart ist das?", "answer": "ausrufsatz" },
+    { "type": "fill_blank", "question": "'Kannst du mir bitte helfen?' – Was für eine Satzart ist das?", "answer": "fragesatz" },
+    { "type": "fill_blank", "question": "'Sei bitte leise!' – Was für eine Satzart ist das?", "answer": "aufforderungssatz" },
+    { "type": "fill_blank", "question": "Ein Aussagesatz endet mit einem ___.", "answer": "punkt" },
+    { "type": "fill_blank", "question": "Ein Fragesatz endet mit einem ___.", "answer": "fragezeichen" },
+    { "type": "fill_blank", "question": "Ein Ausrufsatz endet mit einem ___.", "answer": "ausrufezeichen" },
+    { "type": "fill_blank", "question": "Ein Aufforderungssatz endet mit einem ___.", "answer": "ausrufezeichen" },
+    { "type": "fill_blank", "question": "Im Aussagesatz steht das Verb an ___ Stelle.", "answer": "zweiter" },
+    { "type": "fill_blank", "question": "Im Fragesatz ohne Fragewort steht das Verb am ___.", "answer": "anfang" },
+    { "type": "fill_blank", "question": "Es gibt ___ verschiedene Satzarten.", "answer": "vier" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'Der Hund schläft auf dem Sofa.' – Was für eine Satzart?", "words": ["Fragesatz", "Ausrufsatz", "Aussagesatz", "Aufforderungssatz"], "answer": "Aussagesatz" },
+    { "type": "drag_drop", "question": "'Wo ist mein Rucksack?' – Was für eine Satzart?", "words": ["Aussagesatz", "Ausrufsatz", "Aufforderungssatz", "Fragesatz"], "answer": "Fragesatz" },
+    { "type": "drag_drop", "question": "'Das ist ja unglaublich!' – Was für eine Satzart?", "words": ["Aussagesatz", "Fragesatz", "Aufforderungssatz", "Ausrufsatz"], "answer": "Ausrufsatz" },
+    { "type": "drag_drop", "question": "'Räum bitte dein Zimmer auf!' – Was für eine Satzart?", "words": ["Aussagesatz", "Fragesatz", "Ausrufsatz", "Aufforderungssatz"], "answer": "Aufforderungssatz" },
+    { "type": "drag_drop", "question": "'Heute scheint die Sonne.' – Was für eine Satzart?", "words": ["Fragesatz", "Ausrufsatz", "Aufforderungssatz", "Aussagesatz"], "answer": "Aussagesatz" },
+    { "type": "drag_drop", "question": "'Komm sofort her!' – Was für eine Satzart?", "words": ["Aussagesatz", "Fragesatz", "Ausrufsatz", "Aufforderungssatz"], "answer": "Aufforderungssatz" },
+    { "type": "drag_drop", "question": "'Wie heißt du?' – Was für eine Satzart?", "words": ["Aussagesatz", "Ausrufsatz", "Aufforderungssatz", "Fragesatz"], "answer": "Fragesatz" },
+    { "type": "drag_drop", "question": "'Das schmeckt ja wunderbar!' – Was für eine Satzart?", "words": ["Aussagesatz", "Fragesatz", "Aufforderungssatz", "Ausrufsatz"], "answer": "Ausrufsatz" },
+    { "type": "drag_drop", "question": "'Der Hund schläft auf dem Sofa___' – Welches Satzzeichen fehlt?", "words": ["?", "!", ",", "."], "answer": "." },
+    { "type": "drag_drop", "question": "'Wo ist mein Rucksack___' – Welches Satzzeichen fehlt?", "words": [".", "!", ",", "?"], "answer": "?" },
+    { "type": "drag_drop", "question": "'Das ist ja unglaublich___' – Welches Satzzeichen fehlt?", "words": [".", "?", ",", "!"], "answer": "!" },
+    { "type": "drag_drop", "question": "'Räum bitte dein Zimmer auf___' – Welches Satzzeichen fehlt?", "words": [".", "?", ",", "!"], "answer": "!" }
+  ],
+
+  // ============================================================
+  // QUIZ: PRONOMEN
+  // ============================================================
+  pronomen: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Was ist ein Pronomen?", "options": ["Ein Eigenschaftswort", "Ein Tunwort", "Ein Wort das ein Nomen ersetzt", "Ein Verbindungswort"], "answer": "Ein Wort das ein Nomen ersetzt" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Personalpronomen?", "options": ["mein", "ich", "der", "und"], "answer": "ich" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Possessivpronomen?", "options": ["ich", "du", "mein", "wir"], "answer": "mein" },
+    { "type": "multiple_choice", "question": "Welches Pronomen ersetzt 'der Hund'?", "options": ["sie", "es", "wir", "er"], "answer": "er" },
+    { "type": "multiple_choice", "question": "Welches Pronomen ersetzt 'die Katze'?", "options": ["er", "es", "wir", "sie"], "answer": "sie" },
+    { "type": "multiple_choice", "question": "Welches Pronomen ersetzt 'das Kind'?", "options": ["er", "sie", "wir", "es"], "answer": "es" },
+    { "type": "multiple_choice", "question": "Welches Pronomen ersetzt 'die Kinder' (Plural)?", "options": ["er", "es", "sie", "ich"], "answer": "sie" },
+    { "type": "multiple_choice", "question": "Was ist das Possessivpronomen von 'ich'?", "options": ["dein", "sein", "mein", "ihr"], "answer": "mein" },
+    { "type": "multiple_choice", "question": "Was ist das Possessivpronomen von 'du'?", "options": ["mein", "sein", "dein", "ihr"], "answer": "dein" },
+    { "type": "multiple_choice", "question": "Was ist das Possessivpronomen von 'er'?", "options": ["mein", "dein", "sein", "ihr"], "answer": "sein" },
+    { "type": "multiple_choice", "question": "Was ist das Possessivpronomen von 'sie' (Einzahl)?", "options": ["mein", "sein", "dein", "ihr"], "answer": "ihr" },
+    { "type": "multiple_choice", "question": "Was ist das Possessivpronomen von 'wir'?", "options": ["euer", "ihr", "unser", "mein"], "answer": "unser" },
+    { "type": "multiple_choice", "question": "Was ist das Possessivpronomen von 'ihr' (Plural)?", "options": ["unser", "ihr", "euer", "sein"], "answer": "euer" },
+    { "type": "multiple_choice", "question": "Welches Pronomen passt? '___ bin müde.'", "options": ["Du", "Er", "Ich", "Wir"], "answer": "Ich" },
+    { "type": "multiple_choice", "question": "Welches Pronomen passt? '___ spielst sehr gut Fußball.'", "options": ["Ich", "Er", "Du", "Sie"], "answer": "Du" },
+    { "type": "multiple_choice", "question": "Welches Pronomen passt? 'Der Lehrer erklärt die Aufgabe. ___ ist sehr nett.'", "options": ["Sie", "Es", "Wir", "Er"], "answer": "Er" },
+    { "type": "multiple_choice", "question": "Welches Pronomen passt? 'Die Lehrerin liest vor. ___ hat eine schöne Stimme.'", "options": ["Er", "Es", "Sie", "Wir"], "answer": "Sie" },
+    { "type": "multiple_choice", "question": "Welches Pronomen passt? 'Das Baby schläft. ___ ist müde.'", "options": ["Er", "Sie", "Es", "Wir"], "answer": "Es" },
+    { "type": "multiple_choice", "question": "Welches Pronomen passt? '___ haben Hunger.'", "options": ["Ich", "Du", "Er", "Wir"], "answer": "Wir" },
+    { "type": "multiple_choice", "question": "Welches Pronomen passt? '___ habt morgen frei.'", "options": ["Wir", "Sie", "Ihr", "Er"], "answer": "Ihr" },
+    { "type": "multiple_choice", "question": "Welches Possessivpronomen passt? 'Das ist ___ Hund.' (Er spricht)", "options": ["mein", "dein", "sein", "ihr"], "answer": "sein" },
+    { "type": "multiple_choice", "question": "Welches Possessivpronomen passt? 'Das ist ___ Katze.' (Sie spricht)", "options": ["mein", "sein", "dein", "ihre"], "answer": "ihre" },
+    { "type": "multiple_choice", "question": "Welches Possessivpronomen passt? 'Das ist ___ Buch.' (Ich spreche)", "options": ["dein", "sein", "mein", "ihr"], "answer": "mein" },
+    { "type": "multiple_choice", "question": "Welches Possessivpronomen passt? 'Das ist ___ Fahrrad.' (Du sprichst)", "options": ["mein", "sein", "dein", "ihr"], "answer": "dein" },
+    { "type": "multiple_choice", "question": "Was ersetzen Pronomen?", "options": ["Verben", "Adjektive", "Nomen", "Konjunktionen"], "answer": "Nomen" },
+    { "type": "multiple_choice", "question": "Welche Pronomen zeigen Besitz an?", "options": ["Personalpronomen", "Possessivpronomen", "Artikelpronomen", "Verbpronomen"], "answer": "Possessivpronomen" },
+    { "type": "multiple_choice", "question": "Welche Aussage über Pronomen ist richtig?", "options": ["Pronomen sind immer Nomen", "Pronomen stehen immer am Satzanfang", "Pronomen ersetzen Nomen um Wiederholungen zu vermeiden", "Pronomen sind immer klein geschrieben"], "answer": "Pronomen ersetzen Nomen um Wiederholungen zu vermeiden" },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "'Der Hund schläft. ___ ist müde.' – Welches Pronomen ersetzt 'Der Hund'?", "answer": "er" },
+    { "type": "fill_blank", "question": "'Die Katze trinkt Milch. ___ ist durstig.' – Welches Pronomen ersetzt 'Die Katze'?", "answer": "sie" },
+    { "type": "fill_blank", "question": "'Das Kind spielt. ___ hat Spaß.' – Welches Pronomen ersetzt 'Das Kind'?", "answer": "es" },
+    { "type": "fill_blank", "question": "'Die Kinder lachen. ___ sind fröhlich.' – Welches Pronomen ersetzt 'Die Kinder'?", "answer": "sie" },
+    { "type": "fill_blank", "question": "'Der Lehrer erklärt. ___ ist geduldig.' – Welches Pronomen ersetzt 'Der Lehrer'?", "answer": "er" },
+    { "type": "fill_blank", "question": "'Die Lehrerin liest vor. ___ hat eine schöne Stimme.' – Welches Pronomen ersetzt 'Die Lehrerin'?", "answer": "sie" },
+    { "type": "fill_blank", "question": "___ bin heute sehr müde.", "answer": "ich" },
+    { "type": "fill_blank", "question": "___ spielst sehr gut Gitarre.", "answer": "du" },
+    { "type": "fill_blank", "question": "Meine Schwester und ich, ___ spielen heute zusammen.", "answer": "wir", "answer_alternatives": ["sie"] },
+    { "type": "fill_blank", "question": "___ habt eure Hausaufgaben vergessen.", "answer": "ihr" },
+    { "type": "fill_blank", "question": "Das ist ___ Hund. (ich spreche)", "answer": "mein" },
+    { "type": "fill_blank", "question": "Das ist ___ Katze. (du sprichst)", "answer": "deine" },
+    { "type": "fill_blank", "question": "Das ist ___ Fahrrad. (er spricht)", "answer": "sein" },
+    { "type": "fill_blank", "question": "Das ist ___ Buch. (sie spricht, Einzahl)", "answer": "ihr" },
+    { "type": "fill_blank", "question": "Das Wort 'ich' ist ein ___.", "answer": "personalpronomen" },
+    { "type": "fill_blank", "question": "Das Wort 'mein' ist ein ___.", "answer": "possessivpronomen" },
+    { "type": "fill_blank", "question": "Pronomen ersetzen ein ___.", "answer": "nomen" },
+    { "type": "fill_blank", "question": "Das Possessivpronomen von 'ich' ist ___.", "answer": "mein" },
+    { "type": "fill_blank", "question": "Das Possessivpronomen von 'du' ist ___.", "answer": "dein" },
+    { "type": "fill_blank", "question": "Das Possessivpronomen von 'wir' ist ___.", "answer": "unser" },
+    { "type": "fill_blank", "question": "Das Personalpronomen für eine weibliche Person in der Einzahl ist ___.", "answer": "sie" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'Der Hund schläft. ___ ist müde.' – Welches Pronomen?", "words": ["sie", "es", "wir", "er"], "answer": "er" },
+    { "type": "drag_drop", "question": "'Die Katze trinkt Milch. ___ ist durstig.' – Welches Pronomen?", "words": ["er", "es", "wir", "sie"], "answer": "sie" },
+    { "type": "drag_drop", "question": "'Das Kind spielt. ___ hat Spaß.' – Welches Pronomen?", "words": ["er", "sie", "wir", "es"], "answer": "es" },
+    { "type": "drag_drop", "question": "'___ bin heute sehr müde.' – Welches Pronomen?", "words": ["du", "er", "ich", "wir"], "answer": "ich" },
+    { "type": "drag_drop", "question": "'___ spielst sehr gut Gitarre.' – Welches Pronomen?", "words": ["ich", "er", "du", "wir"], "answer": "du" },
+    { "type": "drag_drop", "question": "'___ haben morgen keinen Unterricht.' – Welches Pronomen?", "words": ["ich", "du", "er", "wir"], "answer": "wir" },
+    { "type": "drag_drop", "question": "'Das ist ___ Hund.' (ich spreche) – Welches Possessivpronomen?", "words": ["dein", "sein", "mein", "ihr"], "answer": "mein" },
+    { "type": "drag_drop", "question": "'Das ist ___ Katze.' (du sprichst) – Welches Possessivpronomen?", "words": ["mein", "sein", "ihr", "deine"], "answer": "deine" },
+    { "type": "drag_drop", "question": "'Das ist ___ Fahrrad.' (er spricht) – Welches Possessivpronomen?", "words": ["mein", "dein", "sein", "ihr"], "answer": "sein" },
+    { "type": "drag_drop", "question": "'Das ist ___ Buch.' (sie spricht, Einzahl) – Welches Possessivpronomen?", "words": ["mein", "sein", "dein", "ihr"], "answer": "ihr" },
+    { "type": "drag_drop", "question": "'ich' – Was für ein Pronomen ist das?", "words": ["Possessivpronomen", "Personalpronomen", "Artikel", "Adjektiv"], "answer": "Personalpronomen" },
+    { "type": "drag_drop", "question": "'mein' – Was für ein Pronomen ist das?", "words": ["Personalpronomen", "Artikel", "Possessivpronomen", "Adjektiv"], "answer": "Possessivpronomen" }
+  ],
+
+  // ============================================================
+  // QUIZ: SINGULAR & PLURAL
+  // ============================================================
+  singular_plural: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Was bedeutet Singular?", "options": ["Mehrzahl", "Einzahl", "Geschlecht", "Fall"], "answer": "Einzahl" },
+    { "type": "multiple_choice", "question": "Was bedeutet Plural?", "options": ["Einzahl", "Mehrzahl", "Geschlecht", "Fall"], "answer": "Mehrzahl" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Hund'?", "options": ["die Hunds", "die Hunden", "die Hunde", "die Hund"], "answer": "die Hunde" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'die Katze'?", "options": ["die Katzs", "die Katzes", "die Katzens", "die Katzen"], "answer": "die Katzen" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'das Kind'?", "options": ["die Kinds", "die Kindes", "die Kinder", "die Kindern"], "answer": "die Kinder" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Ball'?", "options": ["die Balls", "die Bälle", "die Ballen", "die Balles"], "answer": "die Bälle" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'das Buch'?", "options": ["die Buchs", "die Bucher", "die Büchs", "die Bücher"], "answer": "die Bücher" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'die Maus'?", "options": ["die Mause", "die Mauses", "die Mäuse", "die Mausen"], "answer": "die Mäuse" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Baum'?", "options": ["die Baums", "die Baume", "die Bäumen", "die Bäume"], "answer": "die Bäume" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'das Auto'?", "options": ["die Autoen", "die Autös", "die Autos", "die Autoes"], "answer": "die Autos" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Mann'?", "options": ["die Manns", "die Manne", "die Männen", "die Männer"], "answer": "die Männer" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'die Frau'?", "options": ["die Fraus", "die Fraues", "die Frauen", "die Fräuen"], "answer": "die Frauen" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'das Haus'?", "options": ["die Hauses", "die Haus", "die Hausens", "die Häuser"], "answer": "die Häuser" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Stuhl'?", "options": ["die Stuhle", "die Stühlen", "die Stühle", "die Stuhlens"], "answer": "die Stühle" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'die Blume'?", "options": ["die Blumes", "die Blümen", "die Blumens", "die Blumen"], "answer": "die Blumen" },
+    { "type": "multiple_choice", "question": "Was ist der Singular von 'die Hunde'?", "options": ["die Hund", "das Hund", "der Hund", "ein Hunden"], "answer": "der Hund" },
+    { "type": "multiple_choice", "question": "Was ist der Singular von 'die Bücher'?", "options": ["die Buch", "der Buch", "das Buch", "ein Bücher"], "answer": "das Buch" },
+    { "type": "multiple_choice", "question": "Was ist der Singular von 'die Bäume'?", "options": ["die Baum", "das Baum", "der Baum", "ein Bäume"], "answer": "der Baum" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Vogel'?", "options": ["die Vogels", "die Vogelen", "die Vogelns", "die Vögel"], "answer": "die Vögel" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'das Ei'?", "options": ["die Eis", "die Eies", "die Eiern", "die Eier"], "answer": "die Eier" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'die Hand'?", "options": ["die Hands", "die Handes", "die Handen", "die Hände"], "answer": "die Hände" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Zahn'?", "options": ["die Zahns", "die Zahnen", "die Zahnes", "die Zähne"], "answer": "die Zähne" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'das Glas'?", "options": ["die Glasen", "die Glases", "die Glässer", "die Gläser"], "answer": "die Gläser" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Fuß'?", "options": ["die Fußs", "die Fußen", "die Fußes", "die Füße"], "answer": "die Füße" },
+    { "type": "multiple_choice", "question": "Welches Wort hat im Singular und Plural die gleiche Form?", "options": ["hund", "ball", "messer", "baum"], "answer": "messer" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'die Schulter'?", "options": ["die Schulterns", "die Schulteres", "die Schultern", "die Schültern"], "answer": "die Schultern" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Finger'?", "options": ["die Fingers", "die Fingeren", "die Fingerens", "die Finger"], "answer": "die Finger" },
+
+    // FILL BLANK (21)
+    { "type": "fill_blank", "question": "Der Plural von 'der Hund' ist 'die ___'.", "answer": "hunde" },
+    { "type": "fill_blank", "question": "Der Plural von 'die Katze' ist 'die ___'.", "answer": "katzen" },
+    { "type": "fill_blank", "question": "Der Plural von 'das Kind' ist 'die ___'.", "answer": "kinder" },
+    { "type": "fill_blank", "question": "Der Plural von 'der Ball' ist 'die ___'.", "answer": "bälle" },
+    { "type": "fill_blank", "question": "Der Plural von 'das Buch' ist 'die ___'.", "answer": "bücher" },
+    { "type": "fill_blank", "question": "Der Plural von 'die Maus' ist 'die ___'.", "answer": "mäuse" },
+    { "type": "fill_blank", "question": "Der Plural von 'der Baum' ist 'die ___'.", "answer": "bäume" },
+    { "type": "fill_blank", "question": "Der Plural von 'das Haus' ist 'die ___'.", "answer": "häuser" },
+    { "type": "fill_blank", "question": "Der Plural von 'der Vogel' ist 'die ___'.", "answer": "vögel" },
+    { "type": "fill_blank", "question": "Der Plural von 'die Hand' ist 'die ___'.", "answer": "hände" },
+    { "type": "fill_blank", "question": "Der Plural von 'der Zahn' ist 'die ___'.", "answer": "zähne" },
+    { "type": "fill_blank", "question": "Der Singular von 'die Hunde' ist '___ Hund'.", "answer": "der" },
+    { "type": "fill_blank", "question": "Der Singular von 'die Bücher' ist '___ Buch'.", "answer": "das" },
+    { "type": "fill_blank", "question": "Der Singular von 'die Bäume' ist '___ Baum'.", "answer": "der" },
+    { "type": "fill_blank", "question": "Der Singular von 'die Katzen' ist '___ Katze'.", "answer": "die" },
+    { "type": "fill_blank", "question": "Der Singular von 'die Kinder' ist '___ Kind'.", "answer": "das" },
+    { "type": "fill_blank", "question": "Ein Nomen in der Einzahl nennt man ___.", "answer": "singular" },
+    { "type": "fill_blank", "question": "Ein Nomen in der Mehrzahl nennt man ___.", "answer": "plural" },
+    { "type": "fill_blank", "question": "Im Plural steht immer der Artikel ___.", "answer": "die" },
+    { "type": "fill_blank", "question": "Das Wort 'Messer' hat im Singular und Plural die ___ Form.", "answer": "gleiche" },
+    { "type": "fill_blank", "question": "Viele Nomen verändern im Plural den Vokal, z.B. a wird zu ä. Das nennt man einen ___.", "answer": "umlaut" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'der Hund' – Was ist der Plural?", "words": ["die Hunden", "die Hunds", "die Hunde", "die Hund"], "answer": "die Hunde" },
+    { "type": "drag_drop", "question": "'das Kind' – Was ist der Plural?", "words": ["die Kinds", "die Kindes", "die Kindern", "die Kinder"], "answer": "die Kinder" },
+    { "type": "drag_drop", "question": "'der Ball' – Was ist der Plural?", "words": ["die Balls", "die Bälle", "die Ballen", "die Balles"], "answer": "die Bälle" },
+    { "type": "drag_drop", "question": "'das Buch' – Was ist der Plural?", "words": ["die Buchs", "die Bucher", "die Bücher", "die Büchs"], "answer": "die Bücher" },
+    { "type": "drag_drop", "question": "'die Maus' – Was ist der Plural?", "words": ["die Mause", "die Mauses", "die Mäuse", "die Mausen"], "answer": "die Mäuse" },
+    { "type": "drag_drop", "question": "'das Haus' – Was ist der Plural?", "words": ["die Hauses", "die Haus", "die Hausens", "die Häuser"], "answer": "die Häuser" },
+    { "type": "drag_drop", "question": "'der Vogel' – Was ist der Plural?", "words": ["die Vogels", "die Vögel", "die Vogelen", "die Vogelns"], "answer": "die Vögel" },
+    { "type": "drag_drop", "question": "'die Hand' – Was ist der Plural?", "words": ["die Hands", "die Handes", "die Hände", "die Handen"], "answer": "die Hände" },
+    { "type": "drag_drop", "question": "'der Zahn' – Was ist der Plural?", "words": ["die Zahns", "die Zähne", "die Zahnen", "die Zahnes"], "answer": "die Zähne" },
+    { "type": "drag_drop", "question": "'die Bücher' – Was ist der Singular?", "words": ["der Buch", "die Buch", "das Buch", "ein Bücher"], "answer": "das Buch" },
+    { "type": "drag_drop", "question": "'die Bäume' – Was ist der Singular?", "words": ["die Baum", "das Baum", "ein Baum", "der Baum"], "answer": "der Baum" },
+    { "type": "drag_drop", "question": "'die Hunde' – Was ist der Singular?", "words": ["die Hund", "das Hund", "der Hund", "ein Hunden"], "answer": "der Hund" }
+  ],
+
+  // ============================================================
+  // QUIZ: RECHTSCHREIBUNG A (case_sensitive: true)
+  // ============================================================
+  recht_a: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Welches Wort wird großgeschrieben?", "options": ["schnell", "laufen", "hund", "aber"], "answer": "hund" },
+    { "type": "multiple_choice", "question": "Welches Wort wird kleingeschrieben?", "options": ["schule", "katze", "hund", "rennen"], "answer": "rennen" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist richtig geschrieben?", "options": ["der hund schläft.", "Der hund schläft.", "der Hund schläft.", "Der Hund schläft."], "answer": "Der Hund schläft." },
+    { "type": "multiple_choice", "question": "Wo schreibt man ein 'h' zur Dehnung?", "options": ["nach jedem Vokal", "nach einem langen Vokal um ihn zu dehnen", "am Anfang jedes Wortes", "nach jedem Konsonanten"], "answer": "nach einem langen Vokal um ihn zu dehnen" },
+    { "type": "multiple_choice", "question": "Welches Wort hat ein Dehnungs-h?", "options": ["Hund", "Haus", "Stuhl", "Buch"], "answer": "Stuhl" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ie' geschrieben?", "options": ["Knd", "Spel", "Tsch", "Spiel"], "answer": "Spiel" },
+    { "type": "multiple_choice", "question": "Welcher Satz hat das Komma richtig gesetzt?", "options": ["Ich esse Äpfel Birnen und Bananen.", "Ich esse, Äpfel, Birnen, und Bananen.", "Ich esse Äpfel, Birnen und Bananen.", "Ich esse Äpfel Birnen, und Bananen."], "answer": "Ich esse Äpfel, Birnen und Bananen." },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'aa' geschrieben?", "options": ["Sal", "Hare", "Saal", "Pare"], "answer": "Saal" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ee' geschrieben?", "options": ["Sle", "Sel", "See", "Sehe"], "answer": "See" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist richtig geschrieben?", "options": ["Das kind spielt im garten.", "Das Kind spielt im garten.", "Das kind spielt im Garten.", "Das Kind spielt im Garten."], "answer": "Das Kind spielt im Garten." },
+    { "type": "multiple_choice", "question": "Welches Wort hat ein Dehnungs-h?", "options": ["Buch", "Tisch", "Ball", "Zahl"], "answer": "Zahl" },
+    { "type": "multiple_choice", "question": "Wann setzt man ein Komma in einer Aufzählung?", "options": ["Nach jedem Wort", "Nur am Ende", "Zwischen den aufgezählten Wörtern, aber nicht vor 'und' oder 'oder'", "Vor jedem Wort"], "answer": "Zwischen den aufgezählten Wörtern, aber nicht vor 'und' oder 'oder'" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist richtig geschrieben?", "options": ["ich gehe in die Schule.", "Ich gehe in die schule.", "ich gehe in die schule.", "Ich gehe in die Schule."], "answer": "Ich gehe in die Schule." },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ie' geschrieben?", "options": ["Tr", "Fld", "Brf", "Brief"], "answer": "Brief" },
+    { "type": "multiple_choice", "question": "Welches Wort hat ein Dehnungs-h?", "options": ["Tisch", "Buch", "Wahl", "Ball"], "answer": "Wahl" },
+    { "type": "multiple_choice", "question": "Welcher Satz hat das Komma richtig gesetzt?", "options": ["Wir kaufen Milch, Brot, Butter, und Käse.", "Wir kaufen Milch Brot Butter und Käse.", "Wir kaufen, Milch, Brot, Butter und Käse.", "Wir kaufen Milch, Brot, Butter und Käse."], "answer": "Wir kaufen Milch, Brot, Butter und Käse." },
+    { "type": "multiple_choice", "question": "Welches Wort wird großgeschrieben?", "options": ["blau", "laufen", "tisch", "weil"], "answer": "tisch" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'aa' geschrieben?", "options": ["Hre", "Hare", "Haare", "Harre"], "answer": "Haare" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist richtig geschrieben?", "options": ["Die katze trinkt milch.", "die Katze trinkt Milch.", "Die katze trinkt Milch.", "Die Katze trinkt Milch."], "answer": "Die Katze trinkt Milch." },
+    { "type": "multiple_choice", "question": "Welches Wort hat ein Dehnungs-h?", "options": ["Bett", "Ball", "Mehl", "Tisch"], "answer": "Mehl" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ie' geschrieben?", "options": ["Lbe", "Liebe", "Libe", "Liibe"], "answer": "Liebe" },
+    { "type": "multiple_choice", "question": "Welcher Satz hat das Komma richtig gesetzt?", "options": ["Im Park sehe ich Hunde, Katzen, Vögel, und Eichhörnchen.", "Im Park sehe ich Hunde Katzen Vögel und Eichhörnchen.", "Im Park sehe ich Hunde, Katzen, Vögel und Eichhörnchen.", "Im Park sehe, ich Hunde, Katzen, Vögel und Eichhörnchen."], "answer": "Im Park sehe ich Hunde, Katzen, Vögel und Eichhörnchen." },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ee' geschrieben?", "options": ["Teh", "Tee", "Te", "Tehe"], "answer": "Tee" },
+    { "type": "multiple_choice", "question": "Welches Wort wird großgeschrieben?", "options": ["schnell", "aber", "blume", "laufen"], "answer": "blume" },
+    { "type": "multiple_choice", "question": "Welcher Satz ist richtig geschrieben?", "options": ["Der lehrer erklärt die aufgabe.", "der Lehrer erklärt die Aufgabe.", "der lehrer erklärt die Aufgabe.", "Der Lehrer erklärt die Aufgabe."], "answer": "Der Lehrer erklärt die Aufgabe." },
+    { "type": "multiple_choice", "question": "Welches Wort hat ein Dehnungs-h?", "options": ["Kind", "Hund", "Fahrt", "Brot"], "answer": "Fahrt" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'aa' geschrieben?", "options": ["Sal", "Hare", "Saal", "Pare"], "answer": "Saal" },
+
+    // FILL BLANK (21) – case_sensitive: true
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der ___ schläft auf dem Sofa.' – Schreibe das Nomen richtig: (hund)", "answer": "Hund" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Die ___ trinkt Milch.' – Schreibe das Nomen richtig: (katze)", "answer": "Katze" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das ___ spielt im Garten.' – Schreibe das Nomen richtig: (kind)", "answer": "Kind" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Ich gehe in die ___.' – Schreibe das Nomen richtig: (schule)", "answer": "Schule" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der ___ erklärt die Aufgabe.' – Schreibe das Nomen richtig: (lehrer)", "answer": "Lehrer" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Die ___ scheint heute hell.' – Schreibe das Nomen richtig: (sonne)", "answer": "Sonne" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der ___ steht vor der Schule.' – Schreibe das Nomen richtig: (baum)", "answer": "Baum" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das Kind sp___lt Ball.' – Ergänze ie oder i:", "answer": "ie" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der St___l steht in der Küche.' – Ergänze uh oder u:", "answer": "uh" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der S___l ist sehr groß.' – Ergänze aa oder a:", "answer": "aa" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Wir trinken T___.' – Ergänze ee oder e:", "answer": "ee" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Ich schreibe einen Br___f.' – Ergänze ie oder i:", "answer": "ie" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Die Z___l ist schwer.' – Ergänze ah oder a:", "answer": "ah" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das M___l braucht man zum Backen.' – Ergänze eh oder e:", "answer": "eh" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Die H___re sind lang.' – Ergänze aa oder a:", "answer": "aa" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Ich esse Äpfel___ Birnen und Bananen.' – Komma oder nicht?", "answer": "," },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Wir kaufen Milch___ Brot___ Butter und Käse.' – Wie viele Kommas fehlen?", "answer": "2" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Im Park sehe ich Hunde___ Katzen___ Vögel und Eichhörnchen.' – Wie viele Kommas fehlen?", "answer": "2" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Sie mag Lesen___ Malen und Singen.' – Komma oder nicht nach 'Lesen'?", "answer": "," },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Er hat Stifte___ Hefte___ Bücher und einen Rucksack dabei.' – Wie viele Kommas fehlen?", "answer": "3" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "Vor 'und' oder 'oder' in einer Aufzählung setzt man ___ Komma.", "answer": "kein" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'Der ___ schläft.' – Welche Schreibweise ist richtig?", "words": ["hund", "Hund", "HUND", "HUnd"], "answer": "Hund" },
+    { "type": "drag_drop", "question": "'Die ___ trinkt Milch.' – Welche Schreibweise ist richtig?", "words": ["katze", "KAtze", "Katze", "kaTze"], "answer": "Katze" },
+    { "type": "drag_drop", "question": "'Ich gehe in die ___.' – Welche Schreibweise ist richtig?", "words": ["schule", "SCHULE", "sCHule", "Schule"], "answer": "Schule" },
+    { "type": "drag_drop", "question": "'Das Kind sp___lt Ball.' – ie oder i?", "words": ["i", "ie", "ieh", "ih"], "answer": "ie" },
+    { "type": "drag_drop", "question": "'Der St___l steht in der Küche.' – uh oder u?", "words": ["u", "uh", "uuh", "ueh"], "answer": "uh" },
+    { "type": "drag_drop", "question": "'Wir trinken T___.' – ee oder e?", "words": ["e", "eh", "ee", "ehe"], "answer": "ee" },
+    { "type": "drag_drop", "question": "'Der S___l ist sehr groß.' – aa oder a?", "words": ["a", "ah", "aa", "aah"], "answer": "aa" },
+    { "type": "drag_drop", "question": "'Ich schreibe einen Br___f.' – ie oder i?", "words": ["i", "ih", "ie", "ieh"], "answer": "ie" },
+    { "type": "drag_drop", "question": "'Ich esse Äpfel___ Birnen und Bananen.' – Welches Zeichen fehlt?", "words": [".", "!", "?", ","], "answer": "," },
+    { "type": "drag_drop", "question": "'Wir kaufen Milch, Brot___ Butter und Käse.' – Komma oder nicht?", "words": ["kein Komma", ","], "answer": "," },
+    { "type": "drag_drop", "question": "'Er mag Fußball___ Tennis und Schwimmen.' – Komma oder nicht?", "words": ["kein Komma", ","], "answer": "," },
+    { "type": "drag_drop", "question": "'Sie kauft Äpfel, Birnen und Bananen___' – Welches Satzzeichen am Ende?", "words": ["!", "?", ",", "."], "answer": "." }
+  ],
+
+  // ============================================================
+  // QUIZ: RECHTSCHREIBUNG B (case_sensitive: true)
+  // ============================================================
+  recht_b: [
+    // MULTIPLE CHOICE (27)
+    { "type": "multiple_choice", "question": "Wann schreibt man 'ss'?", "options": ["Nach einem langen Vokal", "Nach einem kurzen Vokal", "Am Anfang eines Wortes", "Nach einem Konsonanten"], "answer": "Nach einem kurzen Vokal" },
+    { "type": "multiple_choice", "question": "Wann schreibt man 'ß'?", "options": ["Nach einem kurzen Vokal", "Nach einem langen Vokal oder Diphthong", "Am Anfang eines Wortes", "Nach einem Konsonanten"], "answer": "Nach einem langen Vokal oder Diphthong" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ss' geschrieben?", "options": ["strasse", "fusse", "wasser", "masse"], "answer": "wasser" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ß' geschrieben?", "options": ["waßer", "fluß", "straße", "schloß"], "answer": "straße" },
+    { "type": "multiple_choice", "question": "Wann schreibt man einen Doppelkonsonanten?", "options": ["Nach einem langen Vokal", "Nach einem kurzen Vokal", "Am Anfang eines Wortes", "Immer nach 'ei'"], "answer": "Nach einem kurzen Vokal" },
+    { "type": "multiple_choice", "question": "Welches Wort hat einen Doppelkonsonanten?", "options": ["stuhl", "bett", "brot", "baum"], "answer": "bett" },
+    { "type": "multiple_choice", "question": "Welches Wort hat einen Doppelkonsonanten?", "options": ["schule", "hund", "ball", "tisch"], "answer": "ball" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ß' geschrieben?", "options": ["fluß", "waßer", "fuß", "schloß"], "answer": "fuß" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ss' geschrieben?", "options": ["strasse", "fusse", "fluss", "masse"], "answer": "fluss" },
+    { "type": "multiple_choice", "question": "Was ist eine Vorsilbe?", "options": ["Eine Silbe am Ende des Wortes", "Eine Silbe am Anfang des Wortes", "Eine Silbe in der Mitte", "Ein ganzes Wort"], "answer": "Eine Silbe am Anfang des Wortes" },
+    { "type": "multiple_choice", "question": "Was ist eine Nachsilbe?", "options": ["Eine Silbe am Anfang des Wortes", "Eine Silbe in der Mitte", "Eine Silbe am Ende des Wortes", "Ein ganzes Wort"], "answer": "Eine Silbe am Ende des Wortes" },
+    { "type": "multiple_choice", "question": "Welches Wort hat eine Vorsilbe?", "options": ["hund", "schule", "unglücklich", "tisch"], "answer": "unglücklich" },
+    { "type": "multiple_choice", "question": "Welches Wort hat eine Nachsilbe?", "options": ["hund", "freundschaft", "schule", "ball"], "answer": "freundschaft" },
+    { "type": "multiple_choice", "question": "Wie wird wörtliche Rede eingeleitet?", "options": ["Mit einem Punkt", "Mit einem Komma", "Mit Anführungszeichen", "Mit einem Ausrufezeichen"], "answer": "Mit Anführungszeichen" },
+    { "type": "multiple_choice", "question": "Welcher Satz zeigt wörtliche Rede richtig?", "options": ["Er sagt, er kommt morgen.", "Er sagt: er kommt morgen.", "Er sagt: \"Ich komme morgen.\"", "Er sagt \"ich komme morgen\"."], "answer": "Er sagt: \"Ich komme morgen.\"" },
+    { "type": "multiple_choice", "question": "Welches Wort hat einen Doppelkonsonanten?", "options": ["baum", "hund", "teller", "stuhl"], "answer": "teller" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ss' geschrieben?", "options": ["fusse", "strasse", "schloss", "masse"], "answer": "schloss" },
+    { "type": "multiple_choice", "question": "Welche Vorsilbe macht aus 'glücklich' das Gegenteil?", "options": ["ver-", "be-", "un-", "zer-"], "answer": "un-" },
+    { "type": "multiple_choice", "question": "Welche Nachsilbe macht aus 'Freund' ein neues Nomen?", "options": ["-lich", "-ig", "-ung", "-schaft"], "answer": "-schaft" },
+    { "type": "multiple_choice", "question": "Welches Wort hat einen Doppelkonsonanten?", "options": ["brot", "hund", "sommer", "baum"], "answer": "sommer" },
+    { "type": "multiple_choice", "question": "Welcher Satz zeigt wörtliche Rede richtig?", "options": ["Sie fragt, \"kommst du mit?\"", "Sie fragt kommst du mit?", "Sie fragt: \"Kommst du mit?\"", "\"Sie fragt: Kommst du mit?\""], "answer": "Sie fragt: \"Kommst du mit?\"" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ß' geschrieben?", "options": ["fluß", "waßer", "heiß", "schloß"], "answer": "heiß" },
+    { "type": "multiple_choice", "question": "Welche Vorsilbe bedeutet 'wieder' oder 'zurück'?", "options": ["un-", "ver-", "re-", "be-"], "answer": "re-" },
+    { "type": "multiple_choice", "question": "Welche Nachsilbe macht aus einem Verb ein Nomen? (z.B. hoffen → Hoffnung)", "options": ["-lich", "-ig", "-ung", "-schaft"], "answer": "-ung" },
+    { "type": "multiple_choice", "question": "Welches Wort hat einen Doppelkonsonanten?", "options": ["tisch", "stuhl", "kette", "brot"], "answer": "kette" },
+    { "type": "multiple_choice", "question": "Welcher Satz zeigt wörtliche Rede richtig?", "options": ["Der Lehrer sagt \"seid leise\".", "\"Der Lehrer sagt: Seid leise.\"", "Der Lehrer sagt, seid leise.", "Der Lehrer sagt: \"Seid leise!\""], "answer": "Der Lehrer sagt: \"Seid leise!\"" },
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ss' geschrieben?", "options": ["fusse", "heisse", "nass", "strasse"], "answer": "nass" },
+
+    // FILL BLANK (21) – case_sensitive: true
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das Wa___er ist kalt.' – ss oder ß?", "answer": "ss" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Die Stra___e ist lang.' – ss oder ß?", "answer": "ß" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der Flu___ fließt schnell.' – ss oder ß?", "answer": "ss" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Mein Fu___ tut weh.' – ss oder ß?", "answer": "ß" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das Schlo___ ist sehr alt.' – ss oder ß?", "answer": "ss" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der Sommer ist hei___.' – ss oder ß?", "answer": "ß" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das na___e Handtuch liegt auf dem Boden.' – ss oder ß?", "answer": "ss" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das Be___ ist sehr weich.' – tt oder t?", "answer": "tt" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der Ba___ rollt über den Rasen.' – ll oder l?", "answer": "ll" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der Te___er steht auf dem Tisch.' – ll oder l?", "answer": "ll" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Im So___er ist es warm.' – mm oder m?", "answer": "mm" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Die Ke___e brennt hell.' – tt oder t?", "answer": "tt" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das Gegenteil von glücklich ist ___glücklich.'", "answer": "un" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Aus Freund wird mit der Nachsilbe ___ das Wort Freundschaft.'", "answer": "schaft" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das Wort Hoffnung hat die Nachsilbe ___.'", "answer": "ung" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Das Wort unglücklich hat die Vorsilbe ___.'", "answer": "un" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Aus hoffen wird mit der Nachsilbe -ung das Wort ___ung.'", "answer": "Hoff" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "Wörtliche Rede wird in ___ eingeschlossen.", "answer": "Anführungszeichen" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Er sagt: ___ Ich komme morgen. ___' – Welche Zeichen fehlen?", "answer": "\"" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "Nach dem Doppelpunkt bei wörtlicher Rede schreibt man ___.", "answer": "groß" },
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Sie fragt: ___ Kommst du mit? ___' – Was steht vor und nach der wörtlichen Rede?", "answer": "\"" },
+
+    // DRAG & DROP (12)
+    { "type": "drag_drop", "question": "'Das Wa___er ist kalt.' – ss oder ß?", "words": ["ß", "ss", "s", "sz"], "answer": "ss" },
+    { "type": "drag_drop", "question": "'Die Stra___e ist lang.' – ss oder ß?", "words": ["ss", "ß", "s", "sz"], "answer": "ß" },
+    { "type": "drag_drop", "question": "'Mein Fu___ tut weh.' – ss oder ß?", "words": ["ss", "s", "ß", "sz"], "answer": "ß" },
+    { "type": "drag_drop", "question": "'Der Flu___ fließt schnell.' – ss oder ß?", "words": ["ß", "s", "sz", "ss"], "answer": "ss" },
+    { "type": "drag_drop", "question": "'Das Be___ ist weich.' – tt oder t?", "words": ["t", "ttt", "tt", "tz"], "answer": "tt" },
+    { "type": "drag_drop", "question": "'Der Ba___ rollt.' – ll oder l?", "words": ["l", "lll", "hl", "ll"], "answer": "ll" },
+    { "type": "drag_drop", "question": "'Im So___er ist es warm.' – mm oder m?", "words": ["m", "mmm", "mn", "mm"], "answer": "mm" },
+    { "type": "drag_drop", "question": "'Das Gegenteil von glücklich ist ___glücklich.' – Welche Vorsilbe?", "words": ["ver-", "be-", "un-", "zer-"], "answer": "un-" },
+    { "type": "drag_drop", "question": "'Aus Freund wird Freund___.' – Welche Nachsilbe?", "words": ["-ung", "-lich", "-ig", "-schaft"], "answer": "-schaft" },
+    { "type": "drag_drop", "question": "'Er sagt: ___ Ich komme morgen. ___' – Welche Zeichen fehlen?", "words": ["' '", "( )", "[ ]", "\" \""], "answer": "\" \"" },
+    { "type": "drag_drop", "question": "'Der Sommer ist hei___.' – ss oder ß?", "words": ["ss", "s", "sz", "ß"], "answer": "ß" },
+    { "type": "drag_drop", "question": "'Das Wort Hoffnung hat die Nachsilbe ___.'", "words": ["-lich", "-schaft", "-ig", "-ung"], "answer": "-ung" }
+  ],
+
+  // ============================================================
+  // QUIZ: ABSCHLUSS (5 Fragen pro Thema)
+  // ============================================================
+  abschluss: [
+    // MULTIPLE CHOICE (27)
+    // VERBEN (3)
+    { "type": "multiple_choice", "question": "Welche Zeitform ist: 'Er hat Fußball gespielt.'?", "options": ["präsens", "präteritum", "perfekt", "futur"], "answer": "perfekt" },
+    { "type": "multiple_choice", "question": "Welches Hilfsverb passt? 'Das Baby ___ eingeschlafen.'", "options": ["hat", "haben", "ist", "hatte"], "answer": "ist" },
+    { "type": "multiple_choice", "question": "Wie lautet die richtige Konjugation? 'Du ___ ein Buch.'", "options": ["lesen", "lese", "liest", "lest"], "answer": "liest" },
+    // SATZGLIEDER (2)
+    { "type": "multiple_choice", "question": "Was ist das Subjekt? 'Heute backt die Oma einen Kuchen.'", "options": ["heute", "backt", "einen kuchen", "die oma"], "answer": "die oma" },
+    { "type": "multiple_choice", "question": "Was ist das Prädikat? 'Die Katze trinkt Milch.'", "options": ["die katze", "milch", "die", "trinkt"], "answer": "trinkt" },
+    // WORTARTEN (2)
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'schnell'?", "options": ["nomen", "verb", "artikel", "adjektiv"], "answer": "adjektiv" },
+    { "type": "multiple_choice", "question": "Welche Wortart ist 'auf'?", "options": ["nomen", "verb", "adjektiv", "präposition"], "answer": "präposition" },
+    // KASUS (2)
+    { "type": "multiple_choice", "question": "In welchem Kasus steht 'den Ball'? 'Der Junge tritt den Ball.'", "options": ["nominativ", "akkusativ", "dativ", "genitiv"], "answer": "akkusativ" },
+    { "type": "multiple_choice", "question": "Mit welcher Frage findet man den Dativ?", "options": ["wer?", "wen?", "wessen?", "wem?"], "answer": "wem?" },
+    // KONJUNKTIONEN (2)
+    { "type": "multiple_choice", "question": "Welche Konjunktion passt? 'Er will spielen, ___ er muss zuerst lernen.'", "options": ["und", "weil", "dass", "aber"], "answer": "aber" },
+    { "type": "multiple_choice", "question": "Welche Konjunktion drückt einen Grund aus?", "options": ["und", "aber", "weil", "oder"], "answer": "weil" },
+    // NOMEN (2)
+    { "type": "multiple_choice", "question": "Welcher Artikel gehört zu 'Fahrrad'?", "options": ["der", "die", "einen", "das"], "answer": "das" },
+    { "type": "multiple_choice", "question": "Welches Wort ist ein Nomen?", "options": ["laufen", "schön", "tisch", "aber"], "answer": "tisch" },
+    // ADJEKTIVE (2)
+    { "type": "multiple_choice", "question": "Was ist der Komparativ von 'groß'?", "options": ["am größten", "großer", "größer", "am größer"], "answer": "größer" },
+    { "type": "multiple_choice", "question": "Was ist der Superlativ von 'gut'?", "options": ["besser", "gut", "besten", "am besten"], "answer": "am besten" },
+    // SATZARTEN (2)
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Räum bitte dein Zimmer auf!'", "options": ["aussagesatz", "fragesatz", "ausrufsatz", "aufforderungssatz"], "answer": "aufforderungssatz" },
+    { "type": "multiple_choice", "question": "Was ist das für ein Satz? 'Wo ist mein Rucksack?'", "options": ["aussagesatz", "ausrufsatz", "aufforderungssatz", "fragesatz"], "answer": "fragesatz" },
+    // PRONOMEN (2)
+    { "type": "multiple_choice", "question": "Welches Pronomen ersetzt 'die Katze'?", "options": ["er", "es", "wir", "sie"], "answer": "sie" },
+    { "type": "multiple_choice", "question": "Was ist das Possessivpronomen von 'ich'?", "options": ["dein", "sein", "mein", "ihr"], "answer": "mein" },
+    // SINGULAR_PLURAL (2)
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'das Buch'?", "options": ["die buchs", "die bucher", "die bücher", "die büchs"], "answer": "die bücher" },
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Mann'?", "options": ["die manns", "die manne", "die männen", "die männer"], "answer": "die männer" },
+    // RECHT_A (2)
+    { "type": "multiple_choice", "question": "Welcher Satz ist richtig geschrieben?", "options": ["Der lehrer erklärt die aufgabe.", "der Lehrer erklärt die Aufgabe.", "der lehrer erklärt die Aufgabe.", "Der Lehrer erklärt die Aufgabe."], "answer": "Der Lehrer erklärt die Aufgabe." },
+    { "type": "multiple_choice", "question": "Welcher Satz hat das Komma richtig gesetzt?", "options": ["Ich esse Äpfel, Birnen, und Bananen.", "Ich esse, Äpfel, Birnen und Bananen.", "Ich esse Äpfel Birnen und Bananen.", "Ich esse Äpfel, Birnen und Bananen."], "answer": "Ich esse Äpfel, Birnen und Bananen." },
+    // RECHT_B (2)
+    { "type": "multiple_choice", "question": "Welches Wort wird mit 'ss' geschrieben?", "options": ["strasse", "fusse", "wasser", "masse"], "answer": "wasser" },
+    { "type": "multiple_choice", "question": "Welches Wort hat einen Doppelkonsonanten?", "options": ["baum", "hund", "bett", "stuhl"], "answer": "bett" },
+    // 2 GEMISCHTE (Bonusfragen)
+    { "type": "multiple_choice", "question": "Was ist der Plural von 'der Vogel'?", "options": ["die vogels", "die vögel", "die vogelen", "die vogelns"], "answer": "die vögel" },
+    { "type": "multiple_choice", "question": "Welche Zeitform ist: 'Die Katze schlief auf dem Sofa.'?", "options": ["präsens", "perfekt", "futur", "präteritum"], "answer": "präteritum" },
+
+    // FILL BLANK (21)
+    // VERBEN (2)
+    { "type": "fill_blank", "question": "Gestern ___ wir im Park gespielt.", "answer": "haben" },
+    { "type": "fill_blank", "question": "Das Kind ___ gestern krank. (Präteritum von sein)", "answer": "war" },
+    // SATZGLIEDER (2)
+    { "type": "fill_blank", "question": "'Die Katze trinkt Milch.' – Was für ein Satzglied ist 'Die Katze'?", "answer": "subjekt" },
+    { "type": "fill_blank", "question": "'Der Junge kauft einen Apfel.' – Was für ein Satzglied ist 'einen Apfel'?", "answer": "akkusativobjekt" },
+    // WORTARTEN (2)
+    { "type": "fill_blank", "question": "'schnell' – Was für eine Wortart ist das?", "answer": "adjektiv" },
+    { "type": "fill_blank", "question": "'auf' – Was für eine Wortart ist das?", "answer": "präposition" },
+    // KASUS (2)
+    { "type": "fill_blank", "question": "'Der Junge tritt den Ball.' – In welchem Kasus steht 'den Ball'?", "answer": "akkusativ" },
+    { "type": "fill_blank", "question": "'Die Mutter gibt dem Kind einen Apfel.' – In welchem Kasus steht 'dem Kind'?", "answer": "dativ" },
+    // KONJUNKTIONEN (2)
+    { "type": "fill_blank", "question": "Er will spielen, ___ er muss zuerst lernen.", "answer": "aber" },
+    { "type": "fill_blank", "question": "Sie weint, ___ sie hingefallen ist.", "answer": "weil" },
+    // NOMEN (2)
+    { "type": "fill_blank", "question": "___ Fahrrad steht vor der Schule.", "answer": "das" },
+    { "type": "fill_blank", "question": "Das Wort 'Schule' ist ein ___.", "answer": "nomen" },
+    // ADJEKTIVE (2)
+    { "type": "fill_blank", "question": "Der Komparativ von 'groß' ist ___.", "answer": "größer" },
+    { "type": "fill_blank", "question": "Der Superlativ von 'schnell' ist ___.", "answer": "am schnellsten" },
+    // SATZARTEN (2)
+    { "type": "fill_blank", "question": "'Räum bitte dein Zimmer auf!' – Was für eine Satzart ist das?", "answer": "aufforderungssatz" },
+    { "type": "fill_blank", "question": "Ein Fragesatz endet mit einem ___.", "answer": "fragezeichen" },
+    // PRONOMEN (2)
+    { "type": "fill_blank", "question": "'Die Katze schläft. ___ ist müde.' – Welches Pronomen?", "answer": "sie" },
+    { "type": "fill_blank", "question": "Das Possessivpronomen von 'ich' ist ___.", "answer": "mein" },
+    // SINGULAR_PLURAL (2)
+    { "type": "fill_blank", "question": "Der Plural von 'das Buch' ist 'die ___'.", "answer": "bücher" },
+    { "type": "fill_blank", "question": "Der Plural von 'der Vogel' ist 'die ___'.", "answer": "vögel" },
+    // RECHT_A (1)
+    { "type": "fill_blank", "case_sensitive": true, "question": "'Der ___ schläft auf dem Sofa.' – Schreibe das Nomen richtig: (hund)", "answer": "Hund" },
+
+    // DRAG & DROP (12)
+    // VERBEN (1)
+    { "type": "drag_drop", "question": "'Er hat Fußball gespielt.' – Welche Zeitform?", "words": ["Präsens", "Präteritum", "Perfekt", "Futur"], "answer": "Perfekt" },
+    // SATZGLIEDER (1)
+    { "type": "drag_drop", "question": "'Die Katze trinkt Milch.' – Was ist 'Die Katze'?", "words": ["Prädikat", "Akkusativobjekt", "Subjekt", "Adverbiale"], "answer": "Subjekt" },
+    // WORTARTEN (1)
+    { "type": "drag_drop", "question": "'schnell' – Welche Wortart?", "words": ["Verb", "Nomen", "Adjektiv", "Präposition"], "answer": "Adjektiv" },
+    // KASUS (1)
+    { "type": "drag_drop", "question": "'Der Junge tritt den Ball.' – In welchem Kasus steht 'den Ball'?", "words": ["Nominativ", "Akkusativ", "Dativ", "Genitiv"], "answer": "Akkusativ" },
+    // KONJUNKTIONEN (1)
+    { "type": "drag_drop", "question": "'Er will spielen, ___ er muss zuerst lernen.' – Welche Konjunktion?", "words": ["und", "weil", "dass", "aber"], "answer": "aber" },
+    // NOMEN (1)
+    { "type": "drag_drop", "question": "'die Bücher' – Was ist der Singular?", "words": ["der Buch", "die Buch", "das Buch", "ein Bücher"], "answer": "das Buch" },
+    // ADJEKTIVE (1)
+    { "type": "drag_drop", "question": "'groß – ___ – am größten' – Welcher Komparativ fehlt?", "words": ["großer", "am größer", "am größten", "größer"], "answer": "größer" },
+    // SATZARTEN (1)
+    { "type": "drag_drop", "question": "'Räum bitte dein Zimmer auf!' – Was für eine Satzart?", "words": ["Aussagesatz", "Fragesatz", "Ausrufsatz", "Aufforderungssatz"], "answer": "Aufforderungssatz" },
+    // PRONOMEN (1)
+    { "type": "drag_drop", "question": "'Die Katze schläft. ___ ist müde.' – Welches Pronomen?", "words": ["er", "es", "wir", "sie"], "answer": "sie" },
+    // SINGULAR_PLURAL (1)
+    { "type": "drag_drop", "question": "'das Buch' – Was ist der Plural?", "words": ["die Buchs", "die Bucher", "die Bücher", "die Büchs"], "answer": "die Bücher" },
+    // RECHT_A (1)
+    { "type": "drag_drop", "question": "'Das Wa___er ist kalt.' – ss oder ß?", "words": ["ß", "s", "sz", "ss"], "answer": "ss" },
+    // RECHT_B (1)
+    { "type": "drag_drop", "question": "'Der ___ schläft.' – Welche Schreibweise ist richtig?", "words": ["hund", "HUND", "HUnd", "Hund"], "answer": "Hund" }
+  ]
+
+};
+
+// ============================================================
+// TECHNISCHE NOTIZEN FÜR DEN HAUPT-CHAT
+// ============================================================
+//
+// 1. FRAGEN PRO QUIZ-START: 15 zufällig aus 60
+//
+// 2. VERTEILUNG PRO QUIZ-START (zufällig aus Pool):
+//    - Multiple Choice: ~45% (~7 Fragen)
+//    - Fill Blank:      ~35% (~5 Fragen)
+//    - Drag & Drop:     ~20% (~3 Fragen)
+//
+// 3. FILL BLANK AUSWERTUNG – ZWEI MODI:
+//    Modus 1: case-insensitive (Groß/Kleinschreibung egal)
+//    → Gilt für: verben, satzglieder, wortarten, kasus,
+//      konjunktionen, nomen, adjektive, satzarten,
+//      pronomen, singular_plural, abschluss
+//    → Vor Vergleich beide Strings in Kleinbuchstaben umwandeln
+//
+//    Modus 2: case-sensitive (Groß/Kleinschreibung wird geprüft)
+//    → Gilt für: recht_a und recht_b
+//    → Erkennbar an: "case_sensitive": true im JSON
+//
+// 4. SONDERFALL MEHRERE ANTWORTEN:
+//    Quiz pronomen, Fill Blank Frage 9:
+//    "___ haben morgen keinen Unterricht."
+//    → Sowohl "wir" als auch "sie" sind korrekt
+//    → Erkennbar an: "answer_alternatives": ["sie"]
+//
+// 5. DRAG & DROP:
+//    → Bei Drag & Drop zieht der Schüler NUR EIN WORT
+//    → Die "words" sind die Antwortoptionen (wie MC)
+//    → Nicht Sätze zusammenbauen (außer bei nomen Quiz)
+//
+// ============================================================
+
+
+// ─── CHARACTERS ───
+const CHARACTERS = [
+  { name: "Koby", emoji: "⚓", rank: "Anfänger" },
+  { name: "Usopp", emoji: "🎯", rank: "Schütze" },
+  { name: "Nami", emoji: "🗺️", rank: "Navigatorin" },
+  { name: "Chopper", emoji: "🦌", rank: "Arzt" },
+  { name: "Brook", emoji: "🎸", rank: "Musiker" },
+  { name: "Franky", emoji: "🔧", rank: "Schiffbauer" },
+  { name: "Robin", emoji: "📖", rank: "Archäologin" },
+  { name: "Sanji", emoji: "🍳", rank: "Koch" },
+  { name: "Zoro", emoji: "⚔️", rank: "Schwertkämpfer" },
+  { name: "Jinbe", emoji: "🐋", rank: "Steuermann" },
+  { name: "Ace", emoji: "🔥", rank: "Feuerfaust" },
+  { name: "Sabo", emoji: "🎩", rank: "Revolutionär" },
+  { name: "Shanks", emoji: "🍶", rank: "Yonko" },
+  { name: "Rayleigh", emoji: "⚡", rank: "Dunkler König" },
+  { name: "Mihawk", emoji: "🦅", rank: "Weltbester Schwertkämpfer" },
+  { name: "Whitebeard", emoji: "🌊", rank: "Stärkster Mann der Welt" },
+  { name: "Kaido", emoji: "🐉", rank: "Stärkste Kreatur" },
+  { name: "Akainu", emoji: "🌋", rank: "Flottenadmiral" },
+  { name: "Dragon", emoji: "🌪️", rank: "Revolutionsführer" },
+  { name: "Monkey D. Luffy", emoji: "🏴‍☠️", rank: "Piratenkönig" },
+];
+
+// ─── QUIZZE ───
+const QUIZZES = [
+  { id: "verben", title: "Verben & Zeitformen", category: "grammatik", schwerpunkt: true, charIndex: 1, passesNeeded: 2 },
+  { id: "satzglieder", title: "Satzglieder", category: "grammatik", schwerpunkt: true, charIndex: 2, passesNeeded: 2 },
+  { id: "wortarten", title: "Wortarten bestimmen", category: "grammatik", schwerpunkt: true, charIndex: 3, passesNeeded: 2 },
+  { id: "kasus", title: "Kasus", category: "grammatik", schwerpunkt: true, charIndex: 4, passesNeeded: 2 },
+  { id: "konjunktionen", title: "Konjunktionen & Satzverbindungen", category: "grammatik", schwerpunkt: true, charIndex: 5, passesNeeded: 2 },
+  { id: "nomen", title: "Nomen & Artikel", category: "grammatik", schwerpunkt: false, charIndex: 6, passesNeeded: 1 },
+  { id: "adjektive", title: "Adjektive & Steigerung", category: "grammatik", schwerpunkt: false, charIndex: 7, passesNeeded: 1 },
+  { id: "satzarten", title: "Satzarten", category: "grammatik", schwerpunkt: false, charIndex: 8, passesNeeded: 1 },
+  { id: "pronomen", title: "Pronomen", category: "grammatik", schwerpunkt: false, charIndex: 9, passesNeeded: 1 },
+  { id: "singular_plural", title: "Singular & Plural", category: "grammatik", schwerpunkt: false, charIndex: 10, passesNeeded: 1 },
+  { id: "recht_a", title: "Groß/Klein, Dehnung & Komma", category: "rechtschreibung", schwerpunkt: false, charIndex: 11, passesNeeded: 1 },
+  { id: "recht_b", title: "Schärfung, s-Laute & Wortbausteine", category: "rechtschreibung", schwerpunkt: false, charIndex: 12, passesNeeded: 1 },
+  { id: "abschluss", title: "Alles kombiniert – Großes Finale", category: "abschluss", schwerpunkt: false, charIndex: 19, passesNeeded: 1 },
+];
+
+// Case-sensitive Quizze
+const CASE_SENSITIVE_QUIZZES = ["recht_a", "recht_b"];
+
+// ─── STATE ───
+let state = { progress: {}, totalScore: 0 };
+let currentQuiz = null;
+let currentQuestions = [];
+let currentQuestionIndex = 0;
+let currentScore = 0;
+let selectedChoice = null;
+let builtSentence = [];
+
+// ─── INIT ───
+async function init() {
+  showLoading("Lade Fortschritt...");
+  await loadProgress();
+  renderCharGrid();
+  renderQuizGrid();
+  updateHero();
+  hideLoading();
+}
+
+// ─── PROGRESS LADEN ───
+async function loadProgress() {
+  try {
+    const res = await fetch(SHEETS_URL);
+    const json = await res.json();
+    if (json.success && json.data) {
+      Object.entries(json.data).forEach(([quizId, val]) => {
+        // Sheets speichert: versuche=Anzahl Versuche, bestePunktzahl=Score, bestanden=true/false
+        // passes wird separat berechnet: wenn bestanden=true, mindestens 1 Pass
+        const bestanden = val.bestanden === true || val.bestanden === "TRUE" || val.bestanden === "true";
+        state.progress[quizId] = {
+          passes: bestanden ? parseInt(val.versuche) || 1 : 0,
+          attempts: parseInt(val.versuche) || 0,
+          bestScore: parseFloat(val.bestePunktzahl) || 0,
+          unlockedChar: bestanden,
+        };
+      });
+      state.totalScore = Object.values(state.progress).reduce((s, p) => s + (p.bestScore || 0), 0);
+    }
+  } catch(e) {
+    const local = localStorage.getItem('kaan_progress');
+    if (local) {
+      try { state.progress = JSON.parse(local); } catch(e2) {}
+    }
+  }
+}
+
+// ─── PROGRESS SPEICHERN ───
+async function saveProgress(quizId, attempts, bestScore, passed, charName) {
+  state.progress[quizId] = state.progress[quizId] || {};
+  localStorage.setItem('kaan_progress', JSON.stringify(state.progress));
+  try {
+    await fetch(SHEETS_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "save",
+        quiz: quizId,
+        versuche: attempts,
+        bestePunktzahl: bestScore,
+        bestanden: passed,
+        charakter: charName
+      }),
+    });
+  } catch(e) {}
+}
+
+// ─── CHARAKTERE RENDERN ───
+function renderCharGrid() {
+  const grid = document.getElementById('charGrid');
+  const unlockedCount = getUnlockedCount();
+  grid.innerHTML = CHARACTERS.map((c, i) => {
+    const unlocked = i < unlockedCount;
+    return `<div class="char-card ${unlocked ? 'unlocked' : 'locked'}" title="${c.name} – ${c.rank}">
+      <div class="char-level">${i+1}</div>
+      ${!unlocked ? '<div class="lock-icon">🔒</div>' : ''}
+      <span class="char-emoji">${c.emoji}</span>
+      <div class="char-card-name">${c.name}</div>
+    </div>`;
+  }).join('');
+}
+
+function getUnlockedCount() {
+  let count = 1;
+  QUIZZES.forEach(q => {
+    const p = state.progress[q.id];
+    if (p && p.passes >= q.passesNeeded) {
+      count = Math.max(count, q.charIndex + 1);
+    }
+  });
+  return Math.min(count, 20);
+}
+
+// ─── QUIZ GRID RENDERN ───
+function renderQuizGrid(filter = 'all') {
+  const grid = document.getElementById('quizGrid');
+  const filtered = filter === 'all' ? QUIZZES : QUIZZES.filter(q => q.category === filter);
+  grid.innerHTML = filtered.map(q => {
+    const p = state.progress[q.id] || { passes: 0, attempts: 0, bestScore: 0 };
+    const passesDone = Math.min(p.passes || 0, q.passesNeeded);
+    const pct = p.bestScore ? Math.round(p.bestScore) : 0;
+    const char = CHARACTERS[q.charIndex];
+    const threshold = getThreshold(p.attempts || 0);
+    const completed = passesDone >= q.passesNeeded;
+
+    let dots = '';
+    for(let i = 0; i < q.passesNeeded; i++) {
+      dots += `<div class="attempt-dot ${i < passesDone ? 'passed' : 'needed'}"></div>`;
+    }
+
+    return `<div class="quiz-card ${q.category}" data-category="${q.category}">
+      <div class="quiz-card-top">
+        <span class="quiz-category">${q.category === 'grammatik' ? 'Grammatik' : q.category === 'rechtschreibung' ? 'Rechtschreibung' : '🏆 Abschluss'}</span>
+        ${q.schwerpunkt ? '<span class="schwerpunkt-badge">⭐ Schwerpunkt</span>' : ''}
+      </div>
+      <div class="quiz-title">${q.title}</div>
+      <div class="quiz-char-reward">
+        <span>${char.emoji}</span>
+        <span>Belohnung: <strong>${char.name}</strong></span>
+        ${completed ? '<span style="color:var(--green);margin-left:auto">✓ Fertig</span>' : ''}
+      </div>
+      <div class="quiz-progress-row">
+        <div class="quiz-progress-label">
+          <span>Beste Punktzahl</span>
+          <span>${pct}%</span>
+        </div>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" style="width:${pct}%"></div>
+        </div>
+      </div>
+      <div class="attempts-row">
+        ${dots}
+        <span class="attempts-label">${passesDone}/${q.passesNeeded} bestanden · Nächste Grenze: ${Math.round(threshold*100)}%</span>
+      </div>
+      <button class="quiz-btn" onclick="startQuiz('${q.id}')">
+        ${completed ? '🔄 Wiederholen' : '▶ Quiz starten'}
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function filterQuiz(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderQuizGrid(cat);
+}
+
+function getThreshold(attempts) {
+  if (attempts === 0) return PASS_THRESHOLDS[0];
+  if (attempts === 1) return PASS_THRESHOLDS[1];
+  return PASS_THRESHOLDS[2];
+}
+
+// ─── HERO UPDATE ───
+function updateHero() {
+  const unlocked = getUnlockedCount();
+  const charIdx = Math.min(unlocked - 1, 19);
+  const char = CHARACTERS[charIdx];
+  document.getElementById('heroAvatar').textContent = char.emoji;
+  document.getElementById('heroName').textContent = char.name;
+  document.getElementById('heroRank').textContent = `Level ${charIdx+1} – ${char.rank}`;
+  document.getElementById('totalScore').textContent = Math.round(state.totalScore);
+
+  const next = charIdx + 1;
+  if (next < 20) {
+    const nextQuiz = QUIZZES.find(q => q.charIndex === next);
+    if (nextQuiz) {
+      const p = state.progress[nextQuiz.id] || {};
+      const passes = Math.min(p.passes || 0, nextQuiz.passesNeeded);
+      document.getElementById('progressText').textContent = `${passes} / ${nextQuiz.passesNeeded} Quiz bestanden`;
+      document.getElementById('heroProgressFill').style.width = `${(passes/nextQuiz.passesNeeded)*100}%`;
+    }
+  } else {
+    document.getElementById('progressText').textContent = '🏆 Alle Charaktere freigeschaltet!';
+    document.getElementById('heroProgressFill').style.width = '100%';
+  }
+}
+
+// ─── QUIZ STARTEN ───
+function startQuiz(quizId) {
+  currentQuiz = QUIZZES.find(q => q.id === quizId);
+  if (!currentQuiz) return;
+
+  const allQ = ALL_QUESTIONS[quizId] || [];
+  if (allQ.length === 0) { showToast("❌ Keine Fragen gefunden!"); return; }
+
+  // 15 zufällige Fragen auswählen
+  const shuffled = [...allQ].sort(() => Math.random() - 0.5);
+  currentQuestions = shuffled.slice(0, QUESTIONS_PER_QUIZ);
+  currentQuestionIndex = 0;
+  currentScore = 0;
+  selectedChoice = null;
+  builtSentence = [];
+
+  document.getElementById('modalTitle').textContent = currentQuiz.title;
+  document.getElementById('quizModal').classList.add('active');
+  renderQuestion();
+}
+
+// ─── FRAGE RENDERN ───
+function renderQuestion() {
+  // Reset State
+  selectedChoice = null;
+  builtSentence = [];
+
+  const q = currentQuestions[currentQuestionIndex];
+  const total = currentQuestions.length;
+  const pct = (currentQuestionIndex / total) * 100;
+
+  let html = `
+    <div class="question-counter">Frage ${currentQuestionIndex + 1} von ${total}</div>
+    <div class="question-progress"><div class="question-progress-fill" style="width:${pct}%"></div></div>
+    <div class="question-text">${q.question}</div>
+  `;
+
+  if (q.type === "multiple_choice") {
+    // Speichere Optionen und Antwort im State für sicheren Zugriff
+    window._currentMCOptions = q.options;
+    window._currentMCAnswer = q.answer;
+    html += `<div class="options-grid">
+      ${q.options.map((opt, oi) => `
+        <button class="option-btn" onclick="checkMCByIndex(this, ${oi})">${opt}</button>
+      `).join('')}
+    </div>`;
+
+  } else if (q.type === "fill_blank") {
+    html += `<div class="text-input-area">
+      <input type="text" class="text-input" id="fillInput" placeholder="Antwort eingeben..."
+        onkeydown="if(event.key==='Enter') checkFillCurrent()">
+    </div>`;
+
+  } else if (q.type === "drag_drop") {
+    // Prüfe ob es ein Satz-Bau oder Auswahl ist
+    // Satz-Bau: words hat mehr als 4 Elemente ODER answer ist ein Satz mit Leerzeichen und words enthält Satzwörter
+    const isSentenceBuild = q.words.length > 4 || (q.answer.includes(' ') && q.words.some(w => q.answer.includes(w)));
+    
+    if (isSentenceBuild) {
+      // Satz-Bau Modus
+      const shuffledWords = [...q.words].sort(() => Math.random() - 0.5);
+      html += `<div class="sentence-builder">
+        <div class="sentence-display" id="sentenceDisplay">
+          <span style="color:var(--muted);font-size:0.85rem">Klicke auf die Wörter um den Satz zu bauen...</span>
+        </div>
+        <button class="reset-btn" onclick="resetSentence()">↺ Zurücksetzen</button>
+        <div class="word-bank" id="wordBank">
+          ${shuffledWords.map((w, i) => `<div class="word-tile" id="tile_${i}" onclick="addWord('${w.replace(/'/g, "\'")}', ${i})">${w}</div>`).join('')}
+        </div>
+      </div>`;
+    } else {
+      // Auswahl-Modus (ein Wort wählen)
+      window._currentDDAnswer = q.answer;
+      html += `<div class="choice-options">
+        ${q.words.map((w, wi) => `
+          <button class="choice-btn" onclick="selectChoiceByIndex(this, ${wi})">${w}</button>
+        `).join('')}
+      </div>`;
+    }
+  }
+
+  html += `<div class="feedback-box" id="feedback"></div>`;
+
+  // Prüfen-Button je nach Typ
+  if (q.type === "fill_blank") {
+    html += `<div class="nav-btns"><button class="btn btn-primary" onclick="checkFillCurrent()">Prüfen ✓</button></div>`;
+  } else if (q.type === "drag_drop") {
+    const isSentenceBuild = q.words.length > 4 || (q.answer.includes(' ') && q.words.some(w => q.answer.includes(w)));
+    if (isSentenceBuild) {
+      html += `<div class="nav-btns"><button class="btn btn-primary" id="checkSentenceBtn" onclick="checkSentenceCurrent()">Prüfen ✓</button></div>`;
+    }
+    // Auswahl-Modus hat keinen Button – direkt bei Klick prüfen
+  }
+
+  document.getElementById('quizContent').innerHTML = html;
+
+  if (q.type === "fill_blank") {
+    document.getElementById('fillInput')?.focus();
+  }
+}
+
+// ─── MULTIPLE CHOICE PRÜFEN ───
+function checkMCByIndex(btn, optionIndex) {
+  const q = currentQuestions[currentQuestionIndex];
+  const selected = q.options[optionIndex];
+  checkMC(btn, selected, q.answer);
+}
+
+function checkMC(btn, selected, correct) {
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  const isCorrect = selected === correct;
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    btns.forEach(b => { if (b.textContent.trim() === correct) b.classList.add('correct'); });
+  }
+  showFeedback(isCorrect, correct);
+  recordAnswer(isCorrect);
+  setTimeout(() => nextQuestion(), 1500);
+}
+
+// ─── LÜCKENTEXT PRÜFEN ───
+function checkFillCurrent() {
+  const q = currentQuestions[currentQuestionIndex];
+  checkFill(q.answer, q.case_sensitive || false);
+}
+
+function checkFill(correct, caseSensitive = false) {
+  const input = document.getElementById('fillInput');
+  if (!input || input.disabled) return;
+  const val = input.value.trim();
+  if (!val) { input.focus(); return; }
+  
+  let isCorrect;
+  const q = currentQuestions[currentQuestionIndex];
+  const alternatives = q.answer_alternatives || [];
+
+  if (caseSensitive) {
+    isCorrect = val === correct || alternatives.some(a => val === a);
+  } else {
+    isCorrect = val.toLowerCase() === correct.toLowerCase() || 
+                alternatives.some(a => val.toLowerCase() === a.toLowerCase());
+  }
+
+  input.classList.add(isCorrect ? 'correct' : 'wrong');
+  input.disabled = true;
+  showFeedback(isCorrect, correct);
+  recordAnswer(isCorrect);
+  document.querySelector('.nav-btns').innerHTML = `<button class="btn btn-primary" onclick="nextQuestion()">Weiter →</button>`;
+}
+
+// ─── DRAG & DROP – AUSWAHL ───
+function selectChoiceByIndex(btn, wordIndex) {
+  const q = currentQuestions[currentQuestionIndex];
+  const selected = q.words[wordIndex];
+  selectChoice(btn, selected, q.answer);
+}
+
+function selectChoice(btn, selected, correct) {
+  const btns = document.querySelectorAll('.choice-btn');
+  btns.forEach(b => b.disabled = true);
+  const isCorrect = selected === correct;
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    btns.forEach(b => { if (b.textContent.trim() === correct) b.classList.add('correct'); });
+  }
+  showFeedback(isCorrect, correct);
+  recordAnswer(isCorrect);
+  setTimeout(() => nextQuestion(), 1500);
+}
+
+// ─── DRAG & DROP – SATZ BAUEN ───
+function addWord(word, tileIndex) {
+  const tile = document.getElementById(`tile_${tileIndex}`);
+  if (!tile || tile.classList.contains('used')) return;
+  
+  tile.classList.add('used');
+  builtSentence.push({ word, tileIndex });
+  updateSentenceDisplay();
+}
+
+function removeWord(index) {
+  const removed = builtSentence[index];
+  builtSentence.splice(index, 1);
+  
+  const tile = document.getElementById(`tile_${removed.tileIndex}`);
+  if (tile) tile.classList.remove('used');
+  updateSentenceDisplay();
+}
+
+function resetSentence() {
+  builtSentence = [];
+  document.querySelectorAll('.word-tile').forEach(t => t.classList.remove('used'));
+  updateSentenceDisplay();
+}
+
+function updateSentenceDisplay() {
+  const display = document.getElementById('sentenceDisplay');
+  if (!display) return;
+  
+  if (builtSentence.length === 0) {
+    display.innerHTML = '<span style="color:var(--muted);font-size:0.85rem">Klicke auf die Wörter um den Satz zu bauen...</span>';
+    display.classList.remove('has-words');
+  } else {
+    display.classList.add('has-words');
+    display.innerHTML = builtSentence.map((item, i) => 
+      `<span class="word-chip" onclick="removeWord(${i})">${item.word}</span>`
+    ).join('');
+  }
+}
+
+function checkSentenceCurrent() {
+  const q = currentQuestions[currentQuestionIndex];
+  checkSentence(q.answer);
+}
+
+function checkSentence(correct) {
+  const userAnswer = builtSentence.map(item => item.word).join(' ');
+  const isCorrect = userAnswer.trim() === correct.trim();
+  
+  showFeedback(isCorrect, correct);
+  recordAnswer(isCorrect);
+  
+  // Wörter sperren
+  document.querySelectorAll('.word-tile').forEach(t => t.style.pointerEvents = 'none');
+  document.querySelectorAll('.word-chip').forEach(c => c.style.cursor = 'default');
+  
+  document.querySelector('.nav-btns').innerHTML = `<button class="btn btn-primary" onclick="nextQuestion()">Weiter →</button>`;
+  
+  // Reset-Button verstecken
+  const resetBtn = document.querySelector('.reset-btn');
+  if (resetBtn) resetBtn.style.display = 'none';
+  const checkBtn = document.getElementById('checkSentenceBtn');
+  if (checkBtn) checkBtn.style.display = 'none';
+}
+
+// ─── FEEDBACK ANZEIGEN ───
+function showFeedback(isCorrect, correct) {
+  const fb = document.getElementById('feedback');
+  if (!fb) return;
+  fb.className = `feedback-box ${isCorrect ? 'correct' : 'wrong'}`;
+  fb.textContent = isCorrect ? '✓ Richtig! Super gemacht!' : `✗ Nicht ganz. Richtig wäre: "${correct}"`;
+}
+
+function recordAnswer(isCorrect) {
+  if (isCorrect) currentScore++;
+}
+
+// ─── NÄCHSTE FRAGE ───
+function nextQuestion() {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < currentQuestions.length) {
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+// ─── ERGEBNISSE ANZEIGEN ───
+async function showResults() {
+  const total = currentQuestions.length;
+  const pct = currentScore / total;
+  const p = state.progress[currentQuiz.id] || { passes: 0, attempts: 0, bestScore: 0 };
+  const threshold = getThreshold(p.attempts || 0);
+  const passed = pct >= threshold;
+  const scoreDisplay = Math.round(pct * 100);
+
+  const newAttempts = (p.attempts || 0) + 1;
+  const newPasses = passed ? (p.passes || 0) + 1 : (p.passes || 0);
+  const newBest = Math.max(p.bestScore || 0, scoreDisplay);
+  const charName = CHARACTERS[currentQuiz.charIndex]?.name || '';
+  const charUnlocked = newPasses >= currentQuiz.passesNeeded && (p.passes || 0) < currentQuiz.passesNeeded;
+
+  state.progress[currentQuiz.id] = {
+    passes: newPasses,
+    attempts: newAttempts,
+    bestScore: newBest,
+    unlockedChar: newPasses >= currentQuiz.passesNeeded
+  };
+  state.totalScore = (state.totalScore || 0) + scoreDisplay;
+
+  await saveProgress(currentQuiz.id, newAttempts, newBest, newPasses >= currentQuiz.passesNeeded, charName);
+
+  const char = CHARACTERS[currentQuiz.charIndex];
+
+  let html = `<div class="results-screen">
+    <div class="results-emoji">${passed ? '🎉' : '💪'}</div>
+    <div class="results-title ${passed ? 'passed' : 'failed'}">${passed ? 'Bestanden!' : 'Weiter üben!'}</div>
+    <div class="results-score">Du hast <strong>${scoreDisplay}%</strong> erreicht<br>
+    <small style="color:var(--muted);font-size:0.85rem">Mindestens ${Math.round(threshold*100)}% nötig</small></div>
+    <div style="color:var(--muted);margin-bottom:16px">${currentScore} von ${total} Fragen richtig</div>`;
+
+  if (charUnlocked) {
+    html += `<div class="char-unlocked">
+      <span class="char-unlocked-emoji">${char.emoji}</span>
+      <div class="char-unlocked-text">🎊 ${char.name} freigeschaltet!</div>
+    </div>`;
+  } else if (passed) {
+    const remaining = currentQuiz.passesNeeded - newPasses;
+    html += `<div style="background:rgba(6,214,160,0.1);border:1px solid var(--green);border-radius:14px;padding:14px;margin:16px 0;color:var(--green);font-weight:700">
+      ✓ ${newPasses}/${currentQuiz.passesNeeded} Bestehungen ${remaining > 0 ? `– Noch ${remaining}x bestehen für ${char.name} ${char.emoji}` : `– ${char.name} ${char.emoji} freigeschaltet!`}
+    </div>`;
+  } else {
+    html += `<div style="background:rgba(230,57,70,0.1);border:1px solid var(--red);border-radius:14px;padding:14px;margin:16px 0;color:#FF6B6B;font-weight:700">
+      Versuche es nochmal! Du brauchst ${Math.round(threshold*100)}% zum Bestehen.
+    </div>`;
+  }
+
+  html += `<div class="nav-btns" style="justify-content:center;gap:12px;flex-wrap:wrap;margin-top:20px">
+    <button class="btn btn-primary" onclick="startQuiz('${currentQuiz.id}')">🔄 Nochmal</button>
+    <button class="btn btn-success" onclick="closeModal()">✓ Fertig</button>
+  </div></div>`;
+
+  document.getElementById('quizContent').innerHTML = html;
+  renderCharGrid();
+  renderQuizGrid();
+  updateHero();
+}
+
+// ─── MODAL ───
+function closeModal() {
+  document.getElementById('quizModal').classList.remove('active');
+  currentQuestions = [];
+  builtSentence = [];
+  selectedChoice = null;
+}
+
+// ─── LOADING ───
+function showLoading(text = "Laden...") {
+  document.querySelector('.loading-text').textContent = text;
+  document.getElementById('loadingOverlay').classList.add('active');
+}
+
+function hideLoading() {
+  document.getElementById('loadingOverlay').classList.remove('active');
+}
+
+// ─── TOAST ───
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── START ───
+init();
+
+</script>
+</body>
+</html>
